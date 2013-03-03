@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
 			self.current_user = user
 		else
 			flash.now[:error] = 'Invalid email/password combination' 
-			render 'signin'
+			render 'login'
 		end
 	end
 	
@@ -16,5 +16,7 @@ class SessionsController < ApplicationController
 	end
 	
 	def destroy
+		cookies.delete(:remember_token)
+		self.current_user = nil
 	end
 end

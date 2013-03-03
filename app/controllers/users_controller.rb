@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-	def new
+	def register
 		@user = User.new
 	end
 
@@ -18,7 +18,7 @@ class UsersController < ApplicationController
       		redirect_to manage_path #redirect to manage for creating a portfolio
 	  	else
 	  		#because the save created errors, rendering the same page displays the errors now
-	  		render 'new' 
+	  		render 'register' 
   		end
 	end
 

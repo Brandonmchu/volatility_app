@@ -12,7 +12,8 @@ class User < ActiveRecord::Base
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX },
   					uniqueness: {case_sensitive: false}
 
-
+  has_many :portfolios
+  has_many :assets, :through => :portfolios
 
 
 end
