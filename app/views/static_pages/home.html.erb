@@ -1,7 +1,7 @@
 Hello World
 
 
-
+<% if false %>
 
 <%= form_for(:sessions) do |f| %>
 
@@ -12,6 +12,8 @@ Hello World
       <%= f.password_field :password %>
 
       <%= f.submit "Sign in"%>
+<%end%>
+
 <%end%>
 <p>
 Or <%= link_to "Sign up now",signup_path%>

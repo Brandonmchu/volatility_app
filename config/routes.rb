@@ -4,9 +4,12 @@ VolatilityApp::Application.routes.draw do
   resources :users
 
   match 'signup', to: 'users#new'
+  match 'overview', to: 'static_pages#overview'
+  match 'manage', to: 'static_pages#manage'
+  match 'edit', to: 'users#edit'
 
 
-  
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
