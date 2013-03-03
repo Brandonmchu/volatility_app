@@ -1,1 +1,18 @@
 Hello World
+
+
+
+
+<%= form_for(:sessions) do |f| %>
+
+      <%= f.label :email %>
+      <%= f.text_field :email %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+
+      <%= f.submit "Sign in"%>
+<%end%>
+<p>
+Or <%= link_to "Sign up now",signup_path%>
+<p>
