@@ -1,4 +1,8 @@
 
+<% if flash[:error]%>
+<%= flash[:error]%>
+<%end%>
+
 <%= form_for(:session, url:sessions_path) do |f| %>
 
       <%= f.label :email %>
