@@ -1,9 +1,14 @@
 VolatilityApp::Application.routes.draw do
 
-  root to: 'static_pages#home'
   resources :users
+  resources :sessions, only: [:new, :create, :destroy]
 
+  root to: 'static_pages#home'
+  
+  match 'home', to: 'static_pages#home'
   match 'signup', to: 'users#new'
+  match 'signin', to: 'sessions#signin'
+
   match 'overview', to: 'static_pages#overview'
   match 'manage', to: 'static_pages#manage'
   match 'edit', to: 'users#edit'

@@ -7,19 +7,15 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="navigation">
-    <div class="navigation-inner">
-      <div class="header-logo">
-        <p>Volatility</p>
-      </div>
-      <div class="navigation-menu">
-        <%= link_to 'Overview', overview_path %>&nbsp;|&nbsp;
-        <%= link_to 'Manage', manage_path %>&nbsp;|&nbsp;
-        <%= link_to 'Account', edit_path %>
-      </div>
+<%= render 'shared/header' %>
+
+  <div class="main-container">
+    <div class="main-header">
+
+      <%= yield %>
+
     </div>
   </div>
-<%= yield %>
 
 </body>
 </html>
