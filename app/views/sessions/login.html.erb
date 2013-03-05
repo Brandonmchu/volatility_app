@@ -1,8 +1,13 @@
 
+<% if signed_in? %>
+<% render home %>
+<%else%>
+
 <% if flash[:error]%>
 <%= flash[:error]%>
 <%end%>
 
+<div class="accountsettings">
 <%= form_for(:session, url:sessions_path) do |f| %>
 
  	<table>
@@ -21,8 +26,9 @@
   	</div>
 
 <%end%>
-
+</div>
 <p>
 Or <%= link_to "Sign up now",register_path %>
 <p>
-	
+
+<%end%>

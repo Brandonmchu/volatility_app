@@ -1,0 +1,25 @@
+Count of portfolios: <%= @userportfolios.count %>. Click to view/edit:
+<p>
+      <% @userportfolios.each do |f| %>
+      <li>
+      <%= link_to f.portfolio_name, f %>
+  	  </li>
+      <%end%>
+
+<p>
+Or
+
+<% if @portfolio.errors.any? %>
+      
+      <% @portfolio.errors.full_messages.each do |msg| %>
+      <li> <%= msg %> </li>
+      <% end %>
+<%end%>
+
+
+<%= form_for(@portfolio) do |f|%>
+<%= f.label :portfolio_name %>
+<%= f.text_field :portfolio_name %>
+<%= f.submit "Create a portfolio"%>
+
+<%end%>

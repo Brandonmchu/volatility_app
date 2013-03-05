@@ -13,9 +13,9 @@ class UsersController < ApplicationController
 			cookies[:remember_token] = {value: @user.remember_token,
 										expires: 1.day.from_now.utc}
 			self.current_user = @user
-
-      		flash[:success] = "Welcome! Please create a portfolio!"
-      		redirect_to manage_path #redirect to manage for creating a portfolio
+			@user.portfolios.create(portfolio_name: "First Portfolio")
+      		flash[:success] = "Welcome! Please add some assets to your portfolio"
+      		redirect_to portfolio_path(@user.portfolios.first.id) #redirect to manage for creating a portfolio
 	  	else
 	  		#because the save created errors, rendering the same page displays the errors now
 	  		render 'register' 

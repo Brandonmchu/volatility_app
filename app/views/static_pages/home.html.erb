@@ -1,1 +1,5 @@
-Hello World
+<%if signed_in? %>
+Hello World Welcome <%= current_user.name %> You are signed in. Please <%=link_to "click here", signout_path%> to signout.
+<%else%>
+You are not signed in. Please <%=link_to "Log in", login_path%> or <%=link_to "Register", register_path%> for an account.
+<%end%>

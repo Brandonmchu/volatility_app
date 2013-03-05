@@ -2,15 +2,17 @@ VolatilityApp::Application.routes.draw do
 
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
+  resources :assets
+  resources :portfolios
 
   root to: 'static_pages#home'
   
   match 'home', to: 'static_pages#home'
   match 'register', to: 'users#register'
   match 'login', to: 'sessions#login'
+  match 'signout', to: 'sessions#destroy'
 
   match 'overview', to: 'static_pages#overview'
-  match 'manage', to: 'static_pages#manage'
   match 'edit', to: 'users#edit'
 
 

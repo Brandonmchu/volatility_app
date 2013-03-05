@@ -1,0 +1,52 @@
+    <h1>Add Assets to your Portfolio</h1>
+      </div>
+      <div class="add-asset-table">
+        <table>
+          <tr>
+            <td>Ticker</td>
+            <td># of Shares</td>
+            <td>Cost Basis</td>
+            <td>Date Purchased</td>
+          </tr>
+          <tr>
+
+            <%= form_for(@asset) do |f| %>
+            <td><%= f.text_field :asset_symbol %></td>
+            <td><%= f.text_field :shares, :class=> 'positive' %></td>
+            <td><%= f.text_field :cost, :class=> 'positive' %></td>
+            <td><%= f.text_field :purchase_date, :type=>'date' %></td>
+          </tr>
+          </table>
+        </div>
+            <div class= "submit-button">
+            <%= f.submit "+ Add to Portfolio", class: "add-asset-button"%>
+            </div>
+            <%end%>
+            Or  <%= form_for(@portfolio) do |f|%>
+                <%= f.label :portfolio_name %>
+                <%= f.text_field :portfolio_name %>
+                <%= f.submit "Create a portfolio"%>
+                <%end%>
+    
+
+      <div class="main-header">
+        <h1>Currently viewing: <%= @current_portfolio.portfolio_name %></h1>
+      </div>
+      <p>Select a different portfolio, put a drop down here so user can choose a specific portfolio to view / add to</p>
+      <% @portfolios.each do |f| %>
+      <%= link_to f.portfolio_name, f %>
+      <%end%>
+
+
+
+
+      <div class="currently-table">
+        <table>
+            <tr>
+              <td>Ticker</td>
+              <td># of Shares</td>
+              <td>Cost Basis</td>
+              <td>Date Purchased</td>
+            </tr>
+            <!--this is where we'd add lines via javascript, tr and td-->
+        </table>
