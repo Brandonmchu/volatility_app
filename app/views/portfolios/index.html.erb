@@ -1,11 +1,13 @@
+
+<% if flash[:forbidden] %>
+<%= flash[:forbidden] %>
+<%end%>
+
+
 Count of portfolios: <%= @userportfolios.count %>. Click to view/edit:
 <p>
-      <% @userportfolios.each do |f| %>
-      <li>
-      <%= link_to f.portfolio_name, f %>
-  	  </li>
-      <%end%>
-
+      <%= render @userportfolios %>
+      
 <p>
 Or
 

@@ -1,3 +1,5 @@
+<%= javascript_include_tag "http://yui.yahooapis.com/3.8.1/build/yui/yui-min.js" %>
+
     <h1>Add Assets to your Portfolio</h1>
       </div>
       <div class="add-asset-table">
@@ -11,7 +13,9 @@
           <tr>
 
             <%= form_for(@asset) do |f| %>
-            <td><%= f.text_field :asset_symbol %></td>
+
+            <td><div class="container  yui3-skin-sam">
+            <%= f.text_field :asset_symbol, :id=>'ac-input' %></div></td>
             <td><%= f.text_field :shares, :class=> 'positive' %></td>
             <td><%= f.text_field :cost, :class=> 'positive' %></td>
             <td><%= f.text_field :purchase_date, :type=>'date' %></td>
@@ -32,13 +36,8 @@
       <div class="main-header">
         <h1>Currently viewing: <%= @current_portfolio.portfolio_name %></h1>
       </div>
-      <p>Select a different portfolio, put a drop down here so user can choose a specific portfolio to view / add to</p>
-      <% @portfolios.each do |f| %>
-      <%= link_to f.portfolio_name, f %>
-      <%end%>
-
-
-
+      <p>Select a different portfolio: </p>
+      <%= render @userportfolios %>
 
       <div class="currently-table">
         <table>
@@ -48,5 +47,6 @@
               <td>Cost Basis</td>
               <td>Date Purchased</td>
             </tr>
-            <!--this is where we'd add lines via javascript, tr and td-->
+            
+            <%= render @assets %>
         </table>
