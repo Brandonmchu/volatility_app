@@ -26,7 +26,7 @@ before_filter :correct_user, only: [:show]
 		@userportfolios = current_user.portfolios
 		render 'index'
 	end
-	
+
 	private
 	def correct_user
 		@portfolio = current_user.portfolios.find_by_id(params[:id])

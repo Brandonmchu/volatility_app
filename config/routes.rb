@@ -6,7 +6,7 @@ VolatilityApp::Application.routes.draw do
   resources :portfolios
 
   root to: 'static_pages#home'
-  
+
   match 'home', to: 'static_pages#home'
   match 'register', to: 'users#register'
   match 'login', to: 'sessions#login'
