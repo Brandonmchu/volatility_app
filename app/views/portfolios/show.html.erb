@@ -13,6 +13,7 @@
           <tr>
 
             <%= form_for(@asset) do |f| %>
+            <%= hidden_field_tag :portfolio_id, params[:id]%>
 
             <td><div class="container  yui3-skin-sam">
             <%= f.text_field :asset_symbol, :id=>'ac-input' %></div></td>
@@ -31,6 +32,13 @@
                 <%= f.text_field :portfolio_name %>
                 <%= f.submit "Create a portfolio"%>
                 <%end%>
+
+                <% if @asset.errors.any? %>
+      
+      <% @asset.errors.full_messages.each do |msg| %>
+      <li> <%= msg %> </li>
+      <% end %>
+<%end%>
     
 
       <div class="main-header">
@@ -46,7 +54,9 @@
               <td># of Shares</td>
               <td>Cost Basis</td>
               <td>Date Purchased</td>
+
             </tr>
             
-            <%= render @assets %>
+            
         </table>
+        <%= render @assets %>

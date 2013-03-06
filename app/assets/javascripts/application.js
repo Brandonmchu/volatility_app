@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require jquery.numeric
 //= require_tree .
+//= require bootstrap
 
 /*This function uses the javascript file jquery.numeric and forces anything with 
 the class = positive to be a positive number (decimals allowed)"*/

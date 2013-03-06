@@ -6,7 +6,7 @@ before_filter :correct_user, only: [:show]
 		@userportfolios = current_user.portfolios.paginate(page: params[:page])
 		@portfolio = current_user.portfolios.build
 		@current_portfolio = current_user.portfolios.find_by_id(params[:id])
-		@asset = @current_portfolio.assets.build
+		@asset = Asset.new
 		@assets =@current_portfolio.assets.paginate(page: params[:page])
 	end
 
