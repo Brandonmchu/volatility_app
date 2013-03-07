@@ -6,7 +6,10 @@ class AssetsController < ApplicationController
 		if @asset.save
 			redirect_to portfolio_path(params[:portfolio_id])
 		else
-			redirect_to root_url
+			#handle with an error partial or an alert of some sort
+			redirect_to portfolio_path(params[:portfolio_id])
 		end
 	end
+
+	
 end

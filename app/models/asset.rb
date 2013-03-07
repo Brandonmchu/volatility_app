@@ -16,5 +16,9 @@
 class Asset < ActiveRecord::Base
   attr_accessible :asset_name, :asset_symbol, :cost, :portfolio_id, :purchase_date, :shares
   validates :portfolio_id, presence: true
+  validates :asset_symbol, presence: true
+  validates :shares, presence: true
+  validates :cost, presence: true
+  validates :purchase_date, presence: true
   belongs_to :portfolio
 end

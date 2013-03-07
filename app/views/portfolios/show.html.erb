@@ -46,12 +46,7 @@
               <%= f.submit "Create a portfolio"%>
               <%end%>
 
-            <% if @asset.errors.any? %>
 
-              <% @asset.errors.full_messages.each do |msg| %>
-              <li> <%= msg %> </li>
-            <% end %>
-          <%end%>
         </li>
       </ul>
       <div class="currently-table">
@@ -67,3 +62,5 @@
 
         </table>
         <%= render @assets %>
+ 
+ <!-- Handle errors from creating an asset by rendering an error partial -->
