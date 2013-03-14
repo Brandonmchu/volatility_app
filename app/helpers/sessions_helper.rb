@@ -28,4 +28,13 @@ module SessionsHelper
 		session.delete(:return_to)
 	end
 
+	def assetpricelist(listofassets)
+		quote_type = YahooFinance::StandardQuote
+		quote_symbols = listofassets.join(',')
+		quotes = YahooFinance::get_quotes(quote_type,quote_symbols) do |qt|
+			puts "QUOTING: #{qt.symbol}"
+			puts qt.last.to_s
+		end
+	end
+
 end

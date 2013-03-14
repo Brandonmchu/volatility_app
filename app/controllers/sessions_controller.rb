@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
 			cookies[:remember_token] = {value: user.remember_token,
 										expires: 1.day.from_now.utc}
 			self.current_user = user
-			redirect_back_or user
+			redirect_back_or portfolio_path(user.portfolios.first.id)
 		else
 			flash.now[:error] = 'Invalid email/password combination' 
 			render 'login'

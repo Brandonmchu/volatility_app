@@ -8,6 +8,7 @@ before_filter :correct_user, only: [:show]
 		@current_portfolio = current_user.portfolios.find_by_id(params[:id])
 		@asset = Asset.new
 		@assets =@current_portfolio.assets.paginate(page: params[:page])
+		@assetlist = @current_portfolio.assets.select("asset_symbol").map &:asset_symbol
 	end
 
 	def index
