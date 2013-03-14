@@ -1,5 +1,5 @@
 module SessionsHelper
-	
+
 	def current_user
 		@user ||= User.find_by_remember_token(cookies[:remember_token])
 	end
@@ -28,6 +28,5 @@ module SessionsHelper
 		session.delete(:return_to)
 	end
 
-	
 
 end

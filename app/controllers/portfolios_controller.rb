@@ -25,7 +25,7 @@ before_filter :correct_user, only: [:show]
 		@portfolio = current_user.portfolios.build(params[:portfolio])
 		@portfolio.save
 		@userportfolios = current_user.portfolios
-		render 'index'
+		redirect_to portfolio_path(@portfolio.id)
 	end
 
 	private
