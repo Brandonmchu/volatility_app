@@ -62,5 +62,11 @@
 
         </table>
         <%= render @assets %>
+
+      <%= quote = YahooFinance::get_historical_quotes_days('yhoo',30)%>
+      <%= quote = YahooFinance::get_HistoricalQuotes_days('yhoo',30)%>
+      
+
+
  
  <!-- Handle errors from creating an asset by rendering an error partial -->

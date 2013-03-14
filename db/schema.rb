@@ -11,7 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130304224855) do
+ActiveRecord::Schema.define(:version => 20130314041119) do
+
+  create_table "asset_histories", :force => true do |t|
+    t.date     "date"
+    t.float    "open"
+    t.float    "high"
+    t.float    "low"
+    t.float    "close"
+    t.integer  "volume"
+    t.float    "adjusted_close"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
 
   create_table "assets", :force => true do |t|
     t.string   "asset_name"

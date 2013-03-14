@@ -6,8 +6,8 @@
         <p>Volatility</p>
       </div>
       <div class="navigation-menu">
-        <%= link_to 'Overview', overview_path %>&nbsp;|&nbsp;
-        <%= link_to 'Manage', portfolios_path %>&nbsp;|&nbsp;
+        <%= link_to 'Overview', portfolios_path %>&nbsp;|&nbsp;
+        <%= link_to 'Manage', portfolio_path(current_user.portfolios.first.id) %>&nbsp;|&nbsp;
         <%= link_to 'Account', edit_path %>
       </div>
     </div>
