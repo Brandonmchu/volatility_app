@@ -1,5 +1,5 @@
 module SessionsHelper
-	
+
 	def current_user
 		@user ||= User.find_by_remember_token(cookies[:remember_token])
 	end
@@ -33,7 +33,7 @@ module SessionsHelper
 		quote_symbols = listofassets.join(',')
 		quotes = YahooFinance::get_quotes(quote_type,quote_symbols) do |qt|
 			puts "QUOTING: #{qt.symbol}"
-			puts qt.last.to_s
+			puts qt.to_s
 		end
 	end
 
