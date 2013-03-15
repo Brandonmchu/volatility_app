@@ -4,6 +4,6 @@
 <td><%= asset.cost %></td>
 <td><%= asset.purchase_date %></td>
 <td><a href="#">Edit</a></td>
-<td><a href="#">Delete</a></td>
+<td><%= link_to "delete", asset, method: :delete, confirm: "You sure?" %></td>
 </tr>
 

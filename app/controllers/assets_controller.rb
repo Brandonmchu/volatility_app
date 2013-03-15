@@ -19,5 +19,9 @@ class AssetsController < ApplicationController
 			end
 		end
 	end
+	def destroy
+		Asset.find(params[:id]).destroy
+    redirect_to edit_portfolio_path(current_user.portfolios.first.id)
+	end
 
 end
