@@ -1,0 +1,87 @@
+<%= javascript_include_tag "http://yui.yahooapis.com/3.8.1/build/yui/yui-min.js" %>
+
+
+
+
+
+<div class="row-fluid">
+  <div class="span6"></div>
+  <div class="span6"></div>
+</div>
+
+<h2 id='portfolio-title'>Edit or Create a Portfolio! </h2><br><br>
+
+<div class="portfolio-list">
+  <div class="row-fluid">
+      <div class="span12">
+      <%= render @userportfolios, :locals => {:editpage => 'displayedit'} %>
+      <li><%= link_to '+ Add a new portfolio', new_portfolio_path %></li>
+      </div>
+  </div>
+</div>
+
+
+
+<div class="main-header">
+  <h1>Currently Editing: <%= @current_portfolio.portfolio_name %></h1>
+</div>
+
+<div class="currently-table">
+  <table class="table">
+      <tr>
+        <th>Ticker</th>
+        <th># of Shares</th>
+        <th>Cost Basis</th>
+        <th>Date Purchased</th>
+        <th>Edit</th>
+        <th>Delete</th>
+
+      </tr>
+
+      <%= render @assets %>
+
+  </table>
+</div>
+
+
+
+        </table>
+     
+
+
+<br><br>
+<h5>Add Assets to your Portfolio</h5>
+
+
+  <%= form_for(@asset) do |f| %>
+  <%= hidden_field_tag :portfolio_id, params[:id]%>
+  <%= hidden_field_tag :editpage, 'true'%>
+  
+
+    <table>
+      <tr>
+        <td>Stock Symbol </td>
+        <td># of Shares</td>
+        <td>Cost Basis</td>
+        <td>Date Purchased</td>
+      </tr>
+      <tr>
+        <td>
+        <div class="yui3-skin-sam">
+            <%= f.text_field :asset_symbol, :id=>'ac-input' %>
+        </div></td>
+        <td><%= f.text_field :shares, :class=> 'positive' %></td>
+        <td><%= f.text_field :cost, :class=> 'positive' %></td>
+        <td><%= f.text_field :purchase_date, :type=>'date' %></td>
+      </tr>
+    </table>
+
+
+<div class= "submit-button">
+  <%= f.submit "+ Add to Portfolio", class: "add-asset-button"%>
+</div>
+  <%end%>
+
+
+ <!-- Handle errors from creating an asset by rendering an error partial -->
+

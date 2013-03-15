@@ -1,83 +1,12 @@
-<%= javascript_include_tag "http://yui.yahooapis.com/3.8.1/build/yui/yui-min.js" %>
+<% if flash[:forbidden] %>
+<%= flash[:forbidden] %>
+<%end%>
+<br>
 
-<h1>Add Assets to your Portfolio</h1>
-<div class="add-asset-container">
-  <p>Add a stock, bond, or ETF</p>
-  <%= form_for(@asset) do |f| %>
-  <%= hidden_field_tag :portfolio_id, params[:id]%>
-  <div class="add-asset-field  yui3-skin-sam">
-    <%= f.text_field :asset_symbol, :id=>'ac-input' %>
-  </div>
-  <div class="add-asset-table">
-    <table>
-      <tr>
-        <td># of Shares</td>
-        <td>Cost Basis</td>
-        <td>Date Purchased</td>
-      </tr>
-      <tr>
-        <td><%= f.text_field :shares, :class=> 'positive' %></td>
-        <td><%= f.text_field :cost, :class=> 'positive' %></td>
-        <td><%= f.text_field :purchase_date, :type=>'date' %></td>
-      </tr>
-    </table>
-  </div>
-</div>
-<div class= "submit-button">
-  <%= f.submit "+ Add to Portfolio", class: "add-asset-button"%>
-</div>
-  <%end%>
+<br>
+Currently viewing <%= @current_portfolio.portfolio_name%>
+<br>
+<br>
+Select a different Portfolio to view:
 
-
-<div class="row-fluid">
-  <div class="span6"></div>
-  <div class="span6"></div>
-</div>
-
-<h2 id='portfolio-title'>View one of your portfolios </h2><br><br>
-
-<div class="portfolio-list">
-  <div class="row-fluid">
-      <div class="span12">
-      <%= render @userportfolios %>
-      <li><%= link_to '+ Add a new portfolio', new_portfolio_path %></li>
-      </div>
-  </div>
-</div>
-
-
-
-<div class="main-header">
-  <h1>Currently viewing: <%= @current_portfolio.portfolio_name %></h1>
-</div>
-
-<div class="currently-table">
-  <table class="table">
-      <tr>
-        <th>Ticker</th>
-        <th># of Shares</th>
-        <th>Cost Basis</th>
-        <th>Date Purchased</th>
-        <th>Edit</th>
-        <th>Delete</th>
-
-      </tr>
-
-      <%= render @assets %>
-
-  </table>
-</div>
-
-
-
-        </table>
-        <%= render @assets %>
-
-      <%= quote = YahooFinance::get_historical_quotes_days('yhoo',30)%>
-      <%= quote = YahooFinance::get_HistoricalQuotes_days('yhoo',30)%>
-
-
-
-
- <!-- Handle errors from creating an asset by rendering an error partial -->
-
+<%= render @userportfolios, :locals=> {:editpage=>nil} %>

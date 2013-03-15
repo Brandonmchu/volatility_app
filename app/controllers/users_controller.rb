@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 			self.current_user = @user
 			@user.portfolios.create(portfolio_name: "First Portfolio")
       		flash[:success] = "Welcome! Please add some assets to your portfolio"
-      		redirect_to portfolio_path(@user.portfolios.first.id) #redirect to manage for creating a portfolio
+      		redirect_to new_portfolio_path
 	  	else
 	  		#because the save created errors, rendering the same page displays the errors now
 	  		render 'register' 

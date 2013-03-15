@@ -1,0 +1,17 @@
+<tr>
+      <td>
+
+        <%= a.label :asset_symbol, "Asset Symbol"%>
+        <%= a.text_field :asset_symbol, :id=>'ac-input' %>
+      </td><td>
+     
+        <%= a.label :shares, "Shares"%>
+        <%= a.text_field :shares, :class =>'positive' %>
+      </td><td>
+        <%= a.label :cost, "Cost"%>
+        <%= a.text_field :cost, :class=>'positive' %>
+      </td><td>
+        <%= a.label :purchase_date, "Date"%>
+        <%= a.text_field :purchase_date, :type=>'date'%>
+      </td>
+</tr>

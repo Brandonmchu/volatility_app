@@ -28,5 +28,9 @@ module SessionsHelper
 		session.delete(:return_to)
 	end
 
+	def current_portfolio
+		@current_portfolio ||= current_user.portfolios.first
+	end
+
 
 end

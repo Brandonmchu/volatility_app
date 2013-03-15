@@ -1,8 +1,8 @@
 class PortfoliosController < ApplicationController
 before_filter :signed_in_user
-before_filter :correct_user, only: [:show]
+before_filter :correct_user, only: [:show, :edit]
 
-	def show
+	def edit
 		@userportfolios = current_user.portfolios.paginate(page: params[:page])
 		@current_portfolio = current_user.portfolios.find_by_id(params[:id])
 		@asset = Asset.new
@@ -19,14 +19,24 @@ before_filter :correct_user, only: [:show]
 		end
 	end
 
+	def show
+		@current_portfolio = current_user.portfolios.find_by_id(params[:id])
+		@userportfolios = current_user.portfolios.paginate(page: params[:page])
+	end
+
 	def create
-		@portfolio = current_user.portfolios.build(params[:portfolio])
-		@portfolio.save
-		redirect_to portfolio_path(@portfolio.id)
+		@portfolio = current_user.portfolios.new(params[:portfolio])
+		if @portfolio.save
+			redirect_to portfolio_path(@portfolio.id)
+		else
+			@asset = Asset.new
+			render 'new'
+		end
 	end
 
 	def new
-		@portfolio = current_user.portfolios.build
+		@portfolio = current_user.portfolios.new
+		3.times {@portfolio.assets.build}
 		@asset = Asset.new
 	end
 
@@ -34,7 +44,7 @@ before_filter :correct_user, only: [:show]
 	def correct_user
 		@portfolio = current_user.portfolios.find_by_id(params[:id])
 		flash[:forbidden] = "Sorry, you are not allowed to view that portfolio" if @portfolio.nil?
-		redirect_to portfolios_path if @portfolio.nil?
+		redirect_to portfolio_path(current_user.portfolios.first.id) if @portfolio.nil?
 	end
 
 end

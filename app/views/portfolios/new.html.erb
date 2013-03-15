@@ -1,10 +1,48 @@
 <%= javascript_include_tag "http://yui.yahooapis.com/3.8.1/build/yui/yui-min.js" %>
 
-
-<%= form_for(@portfolio) do |f|%>
-  <%= f.text_field :portfolio_name, placeholder: "Portfolio name" %>
-  <%= f.submit "Create a portfolio"%>
+<% if @portfolio.errors.any? %>
+      
+      <% @portfolio.errors.full_messages.each do |msg| %>
+      <li> <%= msg %> </li>
+      <% end %>
 <%end%>
+
+
+  <%= form_for @portfolio do |f|%>
+  <%= f.text_field :portfolio_name, placeholder: "Portfolio name" %>
+
+  <div class="yui3-skin-sam">
+
+  <table>
+      <tr>
+        <th>Ticker</th>
+        <th># of Shares</th>
+        <th>Cost Basis</th>
+        <th>Date Purchased</th>
+      </tr>
+
+    <%= f.fields_for :assets do |assetform|%>
+    <%= render "asset_form", :a=> assetform %>
+    <%end%>
+    <%= f.submit "Create a portfolio"%>
+    <%end%>
+
+  </table>
+</div>
+
+
+
+
+
+
+
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+
+
 
 <div class="add-asset-container">
   <p>Add a stock, bond, or ETF</p>
