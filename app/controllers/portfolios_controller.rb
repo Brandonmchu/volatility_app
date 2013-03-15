@@ -4,11 +4,9 @@ before_filter :correct_user, only: [:show]
 
 	def show
 		@userportfolios = current_user.portfolios.paginate(page: params[:page])
-		@portfolio = current_user.portfolios.build
 		@current_portfolio = current_user.portfolios.find_by_id(params[:id])
 		@asset = Asset.new
 		@assets =@current_portfolio.assets.paginate(page: params[:page])
-		@assetlist = @current_portfolio.assets.select("asset_symbol").map &:asset_symbol
 	end
 
 	def index
@@ -24,8 +22,12 @@ before_filter :correct_user, only: [:show]
 	def create
 		@portfolio = current_user.portfolios.build(params[:portfolio])
 		@portfolio.save
-		@userportfolios = current_user.portfolios
 		redirect_to portfolio_path(@portfolio.id)
+	end
+
+	def new
+		@portfolio = current_user.portfolios.build
+		@asset = Asset.new
 	end
 
 	private

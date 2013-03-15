@@ -2,7 +2,7 @@ VolatilityApp::Application.routes.draw do
 
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
-  resources :assets, :test =>:post
+  resources :assets
   resources :portfolios
 
   root to: 'static_pages#home'
