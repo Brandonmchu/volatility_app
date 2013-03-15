@@ -40,17 +40,12 @@
   <div class="row-fluid">
       <div class="span12">
       <%= render @userportfolios %>
-      <li><a id="add-portfolio">+ add another portfolio</a></li>
+      <li><%= link_to '+ Add a new portfolio', new_portfolio_path %></li>
       </div>
   </div>
 </div>
 
-<div class="create-portfolio">
-      <%= form_for(@portfolio) do |f|%>
-          <%= f.text_field :portfolio_name, placeholder: "Portfolio name" %>
-          <%= f.submit "Create a portfolio"%>
-          <%end%>
-</div>
+
 
 <div class="main-header">
   <h1>Currently viewing: <%= @current_portfolio.portfolio_name %></h1>
@@ -80,9 +75,9 @@
 
       <%= quote = YahooFinance::get_historical_quotes_days('yhoo',30)%>
       <%= quote = YahooFinance::get_HistoricalQuotes_days('yhoo',30)%>
-      
 
 
- 
+
+
  <!-- Handle errors from creating an asset by rendering an error partial -->
 
