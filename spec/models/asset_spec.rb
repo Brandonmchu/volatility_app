@@ -2,15 +2,16 @@
 #
 # Table name: assets
 #
-#  id            :integer          not null, primary key
-#  asset_name    :string(255)
-#  asset_symbol  :string(255)
-#  shares        :float
-#  cost          :float
-#  purchase_date :date
-#  portfolio_id  :integer
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id               :integer          not null, primary key
+#  asset_name       :string(255)
+#  asset_symbol     :string(255)
+#  shares           :float
+#  cost             :float
+#  purchase_date    :date
+#  portfolio_id     :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  asset_history_id :integer
 #
 
 require 'spec_helper'
