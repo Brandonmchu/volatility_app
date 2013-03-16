@@ -1,6 +1,6 @@
 class PortfoliosController < ApplicationController
 before_filter :signed_in_user
-before_filter :correct_user, only: [:show, :edit]
+before_filter :correct_user, only: [:show, :edit, :destroy]
 
 	def edit
 		@userportfolios = current_user.portfolios.paginate(page: params[:page])
@@ -38,6 +38,11 @@ before_filter :correct_user, only: [:show, :edit]
 		@portfolio = current_user.portfolios.new
 		3.times {@portfolio.assets.build}
 		@asset = Asset.new
+	end
+
+	def destroy
+			@portfolio.destroy
+			redirect_to edit_portfolio_path(current_user.portfolios.first)
 	end
 
 	private
