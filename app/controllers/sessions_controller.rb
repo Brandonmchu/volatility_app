@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-	
+
 	def login
 		if signed_in?
 			redirect_to root_url
@@ -16,14 +16,14 @@ class SessionsController < ApplicationController
 			self.current_user = user
 			redirect_back_or portfolio_path(user.portfolios.first.id)
 		else
-			flash.now[:error] = 'Invalid email/password combination' 
+			flash.now[:error] = 'Invalid email/password combination'
 			render 'login'
 		end
 	end
-	
+
 	def new
 	end
-	
+
 	def destroy
 		cookies.delete(:remember_token)
 		self.current_user = nil

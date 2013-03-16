@@ -1,25 +1,22 @@
 
-        <h1>Account Settings</h1>
-      </div>
-      <div class="accountsettings">
-        <table>
-          <tr>
-            <td>Name</td>
-            <td><input type="text" name="Ticker" value=""></td>
-          </tr>
-          <tr>
-            <td>Email</td>
-            <td><input type="text" name="Ticker" value=""></td>
-          </tr>
-          <tr>
-            <td>Current Password</td>
-            <td><input type="text" name="Ticker" value=""></td>
-          </tr>
-          <tr>
-            <td>New Password</td>
-            <td><input type="text" name="Ticker" value=""></td>
-          </tr>
-        </table>
-      </div>
-      <div class="submit-button">
-        <a href="#" class="add-asset-button">Save Settings</a>
+<h1>Account Settings</h1>
+<%= render 'shared/error_messages', object: @user %>
+<%= form_for(@user) do |f| %>
+
+  <%= f.label :name %>
+      <%= f.text_field :name %>
+
+      <%= f.label :email %>
+      <%= f.text_field :email %>
+
+<h2>Change password</h2><br>
+
+      <%= f.label :password, "New password"  %>
+      <%= f.password_field :password %>
+
+      <%= f.label :password_confirmation, "Confirm New password" %>
+      <%= f.password_field :password_confirmation %>
+<br>
+      <%= f.submit "Save Changes"%>
+
+<%end%>
