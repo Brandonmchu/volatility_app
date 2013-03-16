@@ -1,9 +1,5 @@
 <%= javascript_include_tag "http://yui.yahooapis.com/3.8.1/build/yui/yui-min.js" %>
 
-<div class="row-fluid">
-  <div class="span6"></div>
-  <div class="span6"></div>
-</div>
 
 <h2 id='portfolio-title'>Edit or Create a Portfolio! </h2><br><br>
 
@@ -11,8 +7,10 @@
   <div class="row-fluid">
       <div class="span12">
       <%= render @userportfolios, :locals => {:editpage => 'displayedit'} %>
-      <li><%= link_to '+ Add a new portfolio', new_portfolio_path %></li>
+      <div class="portfolio-box-container">
+      <%= link_to '+ Add Portfolio +', new_portfolio_path, class: 'portfolio-box-add' %></div>
       </div>
+
   </div>
 </div>
 

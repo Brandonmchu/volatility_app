@@ -76,5 +76,17 @@ $(document).ready(function(){YUI({
 });
 });
 
+$(function(){$('.portfolio-delete').hover(function() {
+    $(this).fadeTo(1,1);
+ }
+,function() {
+    $(this).fadeTo(1,0);
+});
+});
 
-
+$(function(){$('.portfolio-box').hover(function() {
+    $(this).next().fadeTo(1,1);
+},function() {
+    $(this).next().fadeTo(1,0);
+});
+});
