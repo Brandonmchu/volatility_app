@@ -1,7 +1,7 @@
 <%= javascript_include_tag "http://yui.yahooapis.com/3.8.1/build/yui/yui-min.js" %>
 
 <% if @portfolio.errors.any? %>
-      
+
       <% @portfolio.errors.full_messages.each do |msg| %>
       <li> <%= msg %> </li>
       <% end %>
@@ -22,7 +22,7 @@
       </tr>
 
     <%= f.fields_for :assets do |assetform|%>
-    <%= render "asset_form", :a=> assetform %>
+    <%= render "asset_form", :a => assetform %>
     <%end%>
     <%= f.submit "Create a portfolio"%>
     <%end%>

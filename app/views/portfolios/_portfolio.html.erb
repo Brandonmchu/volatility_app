@@ -1,5 +1,5 @@
 
-<% if !locals[:editpage	].nil? then %>
+<% unless locals[:editpage].nil? then %>
 <li>
       <%= link_to portfolio.portfolio_name, edit_portfolio_path(portfolio.id) %>
 
