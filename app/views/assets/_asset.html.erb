@@ -3,7 +3,7 @@
 <td><%= asset.shares %></td>
 <td><%= asset.cost %></td>
 <td><%= asset.purchase_date %></td>
-<td><a href="#">Edit</a></td>
+<td><%= link_to "edit", edit_asset_path(asset.id), method: :edit %></td>
 <td><%= link_to "delete", asset, method: :delete, confirm: "You sure?" %></td>
 </tr>
 
