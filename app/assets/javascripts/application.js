@@ -77,8 +77,7 @@ $(document).ready(function(){YUI({
 });
 
 $(function(){$('.portfolio-delete').hover(function() {
-    $(this).fadeTo(1,1);
- }
+    $(this).fadeTo(1,1); }
 ,function() {
     $(this).fadeTo(1,0);
 });
@@ -89,4 +88,35 @@ $(function(){$('.portfolio-box').hover(function() {
 },function() {
     $(this).next().fadeTo(1,0);
 });
+});
+
+$(document).ready(function(){
+    $('.editbutton').click(function(){
+        $(this).css('display','none');
+        $(this).nextAll('.savebutton').css('display','inline');
+        $(this).nextAll('.cancelbutton').css('display','inline');
+        $(this).nextAll('.savecancelslash').css('display','inline');
+        $(this).closest('tr').find('.editable').css('display','none');
+        $(this).closest('tr').find('.inputfield').css('display','inline');
+
+    });
+});
+
+$(document).ready(function(){
+    $('.savebutton').click(function(){
+
+        $(this).nextAll('.cancelbutton').css('display','none');
+        $(this).nextAll('.savecancelslash').css('display','none');
+    });
+});
+
+$(document).ready(function(){
+    $('.cancelbutton').click(function(){
+        $(this).css('display','none');
+        $(this).closest('td').find('.savebutton').css('display','none');
+        $(this).closest('td').find('.editbutton').css('display','inline');
+        $(this).closest('td').find('.savecancelslash').css('display','none');
+        $(this).closest('tr').find('.editable').css('display','inline');
+        $(this).closest('tr').find('.inputfield').css('display','none');
+    });
 });

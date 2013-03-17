@@ -5,7 +5,7 @@ before_filter :correct_user, only: [:show, :edit]
 	def edit
 		@userportfolios = current_user.portfolios.paginate(page: params[:page])
 		@current_portfolio = current_user.portfolios.find_by_id(params[:id])
-		@asset = Asset.new
+		@asset = @current_portfolio.assets.build
 		@assets =@current_portfolio.assets.paginate(page: params[:page])
 	end
 
@@ -23,6 +23,8 @@ before_filter :correct_user, only: [:show, :edit]
 		@current_portfolio = current_user.portfolios.find_by_id(params[:id])
 		@userportfolios = current_user.portfolios.paginate(page: params[:page])
 	end
+
+	
 
 	def create
 		@portfolio = current_user.portfolios.new(params[:portfolio])
