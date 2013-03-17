@@ -28,10 +28,9 @@ class UsersController < ApplicationController
 	def update
 		if @user.update_attributes(params[:user])
 			sign_in @user
-			flash.now[:success] = "Account Settings Updated"
+			flash[:success] = "Account Settings Updated"
 			redirect_to edit_user_path
 		else
-			flash[:error] = "Invalid Save"
 			render 'edit'
 		end
 	end
