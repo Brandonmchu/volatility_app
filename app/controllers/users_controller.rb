@@ -12,9 +12,7 @@ class UsersController < ApplicationController
 			# if save works, then a new user has been created,
 			# therefore create a remember_token that expires in a day and set the current_user to
 			# the user that just signed in. The cookie will keep this person signed in for 1 day
-			cookies[:remember_token] = {value: @user.remember_token,
-										expires: 1.day.from_now.utc}
-			self.current_user = @user
+			sign_in @user
 			@user.portfolios.create(portfolio_name: "First Portfolio")
       		flash[:success] = "Welcome! Please add some assets to your portfolio"
       		redirect_to new_portfolio_path
