@@ -98,13 +98,11 @@ $(document).ready(function(){
         $(this).nextAll('.savecancelslash').css('display','inline');
         $(this).closest('tr').find('.editable').css('display','none');
         $(this).closest('tr').find('.inputfield').css('display','inline');
-
     });
 });
 
 $(document).ready(function(){
     $('.savebutton').click(function(){
-
         $(this).nextAll('.cancelbutton').css('display','none');
         $(this).nextAll('.savecancelslash').css('display','none');
     });

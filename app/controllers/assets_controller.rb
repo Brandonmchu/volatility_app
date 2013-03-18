@@ -26,7 +26,6 @@ class AssetsController < ApplicationController
 
 	def edit
 		@asset = Asset.find_by_id(params[:id])
-
 		respond_to do |format|
 			format.html {render 'portfolios/edit'}
 			format.js
@@ -46,10 +45,8 @@ class AssetsController < ApplicationController
 
 	def destroy
 		Asset.find(params[:id]).destroy
-			flash.now[:success] = "Asset deleted"
-			redirect_to edit_portfolio_path(current_portfolio.id)
-
-
+		flash.now[:success] = "Asset deleted"
+		redirect_to edit_portfolio_path(current_portfolio.id)
 	end
 
 end
