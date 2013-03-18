@@ -5,7 +5,12 @@
 <div class="portfolio-list">
   <div class="row-fluid">
       <div class="span12">
-      <%= render @userportfolios, :locals => {:editpage => 'displayedit'} %>
+
+        <%# anytime you render, if it is in 'quotations', then you are rendering a partial. When 
+        it isn't in quotations, you are rendering a variable from the controller. If the variable happens to be a pagination of a model, then rails convention will iterate through each record. You can then access the details of each record through this iteration. The iteration is done on a partial. Rails assumes that since you are iterating on a model, that the name of the partial is the model. That's why the below @userportfolios actually renders _portfolio.html.erb because the @userportfolios is defined as portfolios.paginate in the controller. %>
+
+      <%= render @userportfolios, :locals => {:editpage => 'true'} %>
+
       <div class="portfolio-box-container">
       <%= link_to '+ Add Portfolio', new_portfolio_path, class: 'portfolio-box' %></div>
       </div>
@@ -29,7 +34,9 @@
         <th>Edit</th>
         <th>Delete</th>
       </tr>
+      
       <%= render @assets%>
+  
   </table>
 </div>
 
