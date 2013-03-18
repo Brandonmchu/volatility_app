@@ -91,11 +91,9 @@ body{
 .header-logo{
   width:30%;
   float:left;
-}
-
-.header-logo p {
+  p {
   font-size:20px;
-
+  }
 }
 
 .navigation-menu{
@@ -256,11 +254,11 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
   background-color:#EEE;
   color:#333;
   position:absolute;
-  &:hover{
-  border: 1px dashed #111;
-  background-color:#CCC;
-  color:#111;
-  text-decoration: none;
+  &:hover {
+    border: 1px dashed #111;
+    background-color:#CCC;
+    color:#111;
+    text-decoration: none;
   }
 }
 
@@ -311,5 +309,12 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
   }
 }
 
+.add-asset-button{
+  text-align: center;
+}
+
+.asset-form-container {
+  display: none;
+}
 
 

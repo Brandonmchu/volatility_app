@@ -1,6 +1,5 @@
 <%= javascript_include_tag "http://yui.yahooapis.com/3.8.1/build/yui/yui-min.js" %>
 
-
 <h2 id='portfolio-title'>Edit or Create a Portfolio! </h2><br><br>
 
 <div class="portfolio-list">
@@ -16,7 +15,7 @@
 
 
 
-<div class="main-header">
+<div class="main-header" id="editing-header">
   <h1>Currently Editing: <%= @current_portfolio.portfolio_name %></h1>
 </div>
 
@@ -42,15 +41,12 @@
         </table>
 
 
-
-<br><br>
-<h5>Add Assets to your Portfolio</h5>
-
-
+  <br>
+  <div class= "add-asset-button" id="add-asset-button">Add an Asset to your Portfolio</div>
+  <div class="asset-form-container">
   <%= form_for(@asset) do |f| %>
   <%= hidden_field_tag :portfolio_id, params[:id]%>
   <%= hidden_field_tag :editpage, 'true'%>
-
 
     <table>
       <tr>
@@ -72,10 +68,10 @@
 
 
 <div class= "submit-button">
-  <%= f.submit "+ Add to Portfolio", class: "add-asset-button"%>
+  <%= f.submit "Add Asset", class: "add-asset-button"%>
 </div>
   <%end%>
-
+  </div>
 
  <!-- Handle errors from creating an asset by rendering an error partial -->
 

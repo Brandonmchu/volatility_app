@@ -28,6 +28,7 @@ before_filter :has_one_portfolio, only: [:destroy]
 	def create
 		@portfolio = current_user.portfolios.new(params[:portfolio])
 		if @portfolio.save
+			flash[:success] = "New Portfolio Created!"
 			redirect_to portfolio_path(@portfolio.id)
 		else
 			@asset = Asset.new
