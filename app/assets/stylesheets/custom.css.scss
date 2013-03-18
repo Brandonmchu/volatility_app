@@ -125,13 +125,10 @@ padding:50px 0 40px 0;
 
 /*manage page css*/
 
-input[type="text"]{
-  font-size:20px;
-}
 
 input[type="date"]{
   color:#999;
-  font-size:20px;
+  font-size:inherit;
 }
 
 input::-webkit-outer-spin-button,
@@ -271,6 +268,54 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
   filter:alpha(opacity=0);
 }
 
+.editable{
+}
+.inputfield{
+  display:none;
+}
+
+.inputfield input{
+  width: 7em;
+  height: 1em;
+  margin: 0 0 0 0;
+  line-height:0;
+  text-align: center;
+}
+
+.editbutton{
+  color: #0088cc;
+  &:hover{
+  cursor: pointer;
+  color: #0088cc;
+  text-decoration: underline;
+  }
+}
+.savebutton{
+  vertical-align: baseline;
+  background:none;
+  border:none;
+  display:none;
+  color: #0088cc;
+  &:hover{
+  cursor: pointer;
+  color: #0088cc;
+  text-decoration: underline;
+  }
+}
+.savecancelslash{
+  color: #0088cc;
+  display: none;
+}
+.cancelbutton{
+  display:none;
+  color: #0088cc;
+  &:hover{
+  cursor: pointer;
+  color: #0088cc;
+  text-decoration: underline;
+  }
+}
+
 /*  */
 
 .currently-table{
@@ -278,8 +323,7 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
     margin:auto;
     tr{
       th{
-        font-size:25px;
-        padding:5px 25px 5px 25px;
+        font-size:20px;
         text-align:center;
       }
       td{

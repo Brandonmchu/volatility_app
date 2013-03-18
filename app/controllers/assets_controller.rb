@@ -1,7 +1,7 @@
 class AssetsController < ApplicationController
 
 	def create
-		@asset = Asset.new(params[:asset])
+		@asset = current_portfolio.assets.build(params[:asset])
 		@asset.portfolio_id = params[:portfolio_id]
 
 		respond_to do |format|
@@ -36,18 +36,20 @@ class AssetsController < ApplicationController
 	def update
 		@asset = Asset.find_by_id(params[:id])
 		if @asset.update_attributes(params[:asset])
-			redirect_to edit_portfolio_path(current_portfolio)
+			redirect_to edit_portfolio_path(current_portfolio.id)
 			flash.now[:success] = "Asset info Updated!"
 		else
-			flash[:error] = "Nope"
-			render 'edit'
+			flash[:error] = "Asset Not Updated. Please make sure all fields are filled out."
+      redirect_to edit_portfolio_path(current_portfolio.id)
 		end
 	end
 
 	def destroy
 		Asset.find(params[:id]).destroy
 			flash.now[:success] = "Asset deleted"
-    	redirect_to edit_portfolio_path(current_portfolio)
+			redirect_to edit_portfolio_path(current_portfolio.id)
+
+
 	end
 
 end

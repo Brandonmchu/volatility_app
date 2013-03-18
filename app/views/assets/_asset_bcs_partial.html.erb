@@ -1,0 +1,8 @@
+<tr>
+<td><%= asset.asset_symbol %></td>
+<td><%= asset.shares %></td>
+<td><%= asset.cost %></td>
+<td><%= asset.purchase_date %></td>
+<td><%= link_to "edit", edit_asset_path(asset), {id: "#{asset.id}", remote: "true"} %></td>
+<td><%= link_to "delete", asset, method: :delete, confirm: "You sure?" %></td>
+</tr>

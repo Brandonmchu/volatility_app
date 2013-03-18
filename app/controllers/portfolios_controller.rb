@@ -6,7 +6,7 @@ before_filter :has_one_portfolio, only: [:destroy]
 	def edit
 		@userportfolios = current_user.portfolios.paginate(page: params[:page])
 		@current_portfolio = current_user.portfolios.find_by_id(params[:id])
-		@asset = Asset.new
+		@asset = @current_portfolio.assets.build
 		@assets =@current_portfolio.assets.paginate(page: params[:page])
 	end
 
