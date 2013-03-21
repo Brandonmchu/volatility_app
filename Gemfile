@@ -8,12 +8,12 @@ gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.6'
 gem 'yahoofinance', "1.2.2"
 gem 'activerecord-import'
-
+gem 'taps', '~> 0.3.24'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 group :development, :test do
-	gem 'sqlite3', '1.3.5'
+	gem 'pg'
 	gem 'rspec-rails', '2.11.0'
 end
 
@@ -39,7 +39,7 @@ end
 
 
 group :production do
-  gem 'pg', '0.12.2'
+  gem 'pg'
 end
 
 # To use ActiveModel has_secure_password
