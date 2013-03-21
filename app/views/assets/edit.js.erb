@@ -1,2 +1,10 @@
+//This code is not in use but is included for reference when we need AJAX calls later.  It is a javascript file, that is Asynchronously appended to the DOM.
+//This works because a link_to edit_asset_path has a remote: true parameter (in the DOM this is data-remote="true" in the html element)
+//When the link is clicked, it calls the edit action in the asset controller, which has respond_to methods which redirects the controller
+//to use format.js, which rails auto-interprets as edit.js.erb because its the edit controller. This is only if an edit.js.erb exists (otherwise it uses the normal .html paths)
+//This javascript (Jquery) then executes, and renders a partial assets/add_asset(which is stored as _asset_bcs_partial in our directory)
+//The advantage to doing it this way is because you can't just use Jquery to put embedded ruby into the DOM, because ruby needs to compile
+//from the server (i.e. if you just put in Jquery .append('<%= @asset.name %>') it would literally just put in the string <%= @asset.name %>)
+//This AJAX method allows us to bring the partial from the server, which means it can compile the embedded ruby, and thus work
 $('#editing-header').append("<%= escape_javascript(
 render :partial => "assets/add_asset", :asset => @asset, :locals => {:portfolio_id => current_portfolio.id, :editpage => 'true'} )  %>")
