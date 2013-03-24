@@ -33,19 +33,26 @@ class Asset < ActiveRecord::Base
         mostrecentdate = AssetHistory.find(:all, :select=>'date',:order=>'date DESC',:conditions=>{:asset_symbol=>self.asset_symbol},:limit=>1)
         numberofdays = (Date.today - mostrecentdate[0].date).to_i
       end
-      
+
       prices = YahooFinance::get_historical_quotes_days(self.asset_symbol,numberofdays) 
-      prices.each do |line| 
-        line.push(self.asset_symbol) 
-      end
-      columns = [:date,:open,:high,:low,:close,:volume,:adjusted_close,:asset_symbol]
-      AssetHistory.import columns,prices 
-      
+
+      unless prices.empty?
+        prices.each do |line| 
+          line.push(self.asset_symbol) 
+        end
+        columns = [:date,:open,:high,:low,:close,:volume,:adjusted_close,:asset_symbol]
+        AssetHistory.transaction do
+          ActiveRecord::Base.connection.execute('LOCK TABLE asset_histories IN EXCLUSIVE MODE')
+          AssetHistory.import columns,prices
+        end
+      end  
 
       assethistoryids = AssetHistory.find(:all, :select=>'id', :conditions=>{:asset_symbol=>self.asset_symbol})
-      ahids = "(#{assethistoryids.map{|a| "#{a.id}"}.join(",")})"
-      values = assethistoryids.map{|assethistory| "(#{self.id},#{assethistory.id})"}.join(",") 
-      ActiveRecord::Base.connection.execute("WITH notinyet(asset_id,asset_history_id) AS (VALUES#{values}) INSERT INTO asset_histories_assets (asset_id,asset_history_id) SELECT * FROM notinyet WHERE NOT EXISTS(SELECT asset_id FROM asset_histories_assets WHERE asset_id = #{self.id} AND asset_history_id IN #{ahids})")
+      values = assethistoryids.map{|assethistory| "(#{self.id},#{assethistory.id})"}.join(",")
+      ActiveRecord::Base.transaction do
+        ActiveRecord::Base.connection.execute('LOCK TABLE asset_histories_assets IN EXCLUSIVE MODE')
+        ActiveRecord::Base.connection.execute("WITH notinyet(asset_id,asset_history_id) AS (VALUES#{values}) INSERT INTO asset_histories_assets (asset_id,asset_history_id) SELECT * FROM notinyet WHERE NOT EXISTS(SELECT * FROM asset_histories_assets INNER JOIN notinyet ON asset_histories_assets.asset_id = #{self.id} AND asset_histories_assets.asset_history_id = notinyet.asset_history_id)")
+      end
   	end
 
     # first we set the number of days of price history to 1000. This is the default.
@@ -54,16 +61,30 @@ class Asset < ActiveRecord::Base
     # update the difference in the dates. I.e. If we last updated it last month, we only need 30 days.
     # We set the numberofdays of price history to this difference.
     # If we don't have price history of the asset, then we default look for 1000 days of data.
-
+    
     # prices = ... is the Yahoo Finance API which gets an array of data looking like 
     # {[date,open, close,high,low,volume,adjusted_close],[date2,open2,close2,high2,low2,volume2,adjusted_close2] etc.}
-    # we iterate through the prices to add the stock symbol to that array because that is needed
+    # Next we check if prices.empty? This whenever the data is up to date. If it is, we skip the whole populating price history
+    # since we don't need to populate the price history.
+
+    # If it isn't empty, the rest of the block runs...
+    # We iterate through the prices to add the stock symbol to that array because that is needed
 
     # We will use activerecord-import gem to mass insert into the database.
     # Part of the mass insert requirements is to list the column names in an array
     # columns = ... is the name of the columns
     # notice that the prices variable is the values in the exact same order as the columns
     # AssetHistory.import columns,prices is the gem which mass imports the data into AssetHistory
+    # ActiveRecord::Base.connection.execute is a command to execute SQL statements for the database. 
+    # We send that statement to lock the table and prevent what is known as a concurrent modification
+    # That is, if 2 people add a stock at the exact same time, then we would have 2x the stock price data
+    # Locking the table prevents anyone from modifying it. Thus one of the people's actions would go first
+    # and the second person would wait in line. Once the first person goes, the second person will try
+    # and add the data, but then find that the data is now updated so there shouldn't be any concurrent modification
+    # errors.
+    # .transaction do is a way of telling Rails that we are modifying the database somehow, and to make sure
+    # everything in the do / end block is performed. If anything raises an error, the entire transaction is cancelled.
+    # The lock is lifted soon as the transaction is ended. 
 
     # Before we go into assethistoryids = ... a precursor:
 
@@ -89,12 +110,12 @@ class Asset < ActiveRecord::Base
     # of the asset_history_id
     # values = ... is joining each asset_history_id with the asset_id that was just created.
     # values will look like a string of: '(5,19),(5,20),(5,21)...' etc
-    # ActiveRecord::Base.connection.execute is a command to execute SQL statements
+    # As said before ActiveRecord::Base.connection.execute is a command to execute SQL statements.
     # In other words, we could open up our Postgres database and type that statement to have the commands
     # execute under that GUI. However since we won't always have the Postgres GUI, this is how ruby executes
     # the commands of an SQL statement
 
-    # I use an SQL statement because SQL statements are one of the fastest way to mass import and because
+    # I use an SQL statement because SQL statements is a fast way to mass import and because
     # we are importing into the Join Table. I'm not sure if you can use the gem to import into the 
     # Join Table so this makes things easier. Notice the name of the join table is referenced in the 
     # SQL statement. It is asset_histories_assets. This is because rails convention requires the Join table
@@ -114,11 +135,14 @@ class Asset < ActiveRecord::Base
     # was just the values which is what we need. Next we use the WHERE statement which determines an action
     # based on if it evaluates to true. In this case, true results in the value being inserted.
     # If it is false, then it is not inserted. EXISTS is the next command, a boolean which tests whether
-    # a query evaluates to true. Inside the EXISTS, we run a query to SELECT asset_id FROM asset_histories_assets table
-    # WHERE the asset_id is equal to the asset id we just created and the asset_history_id is in the lits of ids we have for that asset. 
-    # In otherwords, we already know this asset exists in our database. We know it exists, because we just added it.
-    # We also just populated the price history. Now we want to know what's the id for these price histories and the id for this asset.
-    # Combined with the WHERE NOT EXISTS, we are testing if the ids are NOT in our database.
-    # If they aren't it adds it in. If it is, the WHERE NOT EXISTS statement evaluates to false and nothing is added
-    # This one is complicated, but you shouldn't have to deal with this complicated SQL statements often.
+    # a query evaluates to true. Inside the EXISTS, we run a query to SELECT * FROM asset_histories_assets table
+    # INNER JOIN notinyet ON (condition)...INNER JOIN allows the query to also look at data from a second table. We need 
+    # this to check if the first table's id is equal to the second table's id. I.e. in the condition, the asset_id has to equal 
+    # the asset id we are currently adding and the asset_history_id has to equal the same asset_history_id as the notinyet.asset_history_id value. 
+    # If this is true, then what the 'notinyet' (what we are trying to add) is actually in the asset_histories_assets table. 
+    # Therefore Exists will evaluate to TRUE which means NOT EXISTS will evaluate to FALSE. 
+    # Thus WHERE NOT EXISTS evaluates to FALSE and the INSERT is skipped when what we are adding is already in the asset_histories_assets table.
+    # Thus only when we can't find it in our table, does it get added. Thus no duplicates are created and 
+    # we don't get an error for duplicates.
+    
 end
