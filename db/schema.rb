@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130314192044) do
+ActiveRecord::Schema.define(:version => 20130323205631) do
 
   create_table "asset_histories", :force => true do |t|
     t.date    "date"
@@ -22,15 +22,17 @@ ActiveRecord::Schema.define(:version => 20130314192044) do
     t.integer "volume"
     t.float   "adjusted_close"
     t.string  "asset_symbol"
-    t.integer "asset_id"
   end
 
+  add_index "asset_histories", ["asset_symbol"], :name => "index_asset_histories_on_asset_symbol"
   add_index "asset_histories", ["date", "asset_symbol"], :name => "index_asset_histories_on_date_and_asset_symbol", :unique => true
 
   create_table "asset_histories_assets", :id => false, :force => true do |t|
     t.integer "asset_id"
     t.integer "asset_history_id"
   end
+
+  add_index "asset_histories_assets", ["asset_id", "asset_history_id"], :name => "index_asset_histories_assets_on_asset_id_and_asset_history_id", :unique => true
 
   create_table "assets", :force => true do |t|
     t.string   "asset_name"
@@ -39,9 +41,8 @@ ActiveRecord::Schema.define(:version => 20130314192044) do
     t.float    "cost"
     t.date     "purchase_date"
     t.integer  "portfolio_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-    t.integer  "asset_history_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "portfolios", :force => true do |t|

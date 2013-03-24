@@ -12,6 +12,7 @@ class SessionsController < ApplicationController
 		user = User.find_by_email(params[:session][:email].downcase)
 		if user && user.authenticate(params[:session][:password])
 			sign_in user
+			updateassets
 			redirect_back_or portfolio_path(user.portfolios.first.id)
 		else
 			flash.now[:error] = 'Invalid email/password combination'

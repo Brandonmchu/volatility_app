@@ -11,7 +11,6 @@
 #  volume         :integer
 #  adjusted_close :float
 #  asset_symbol   :string(255)
-#  asset_id       :integer
 #
 
 require 'spec_helper'

@@ -7,8 +7,8 @@ gem 'jquery-rails', '2.0.2'
 gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.6'
 gem 'yahoofinance', "1.2.2"
-gem 'activerecord-import'
-gem 'taps', '~> 0.3.24'
+gem 'activerecord-import', '0.3.1'
+gem 'valkyrie', '0.0.2'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
