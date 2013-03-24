@@ -22,7 +22,7 @@ class Asset < ActiveRecord::Base
   belongs_to :portfolio
   has_and_belongs_to_many :asset_histories
 
-  before_save { |asset| asset.asset_symbol = asset_symbol.downcase }
+  before_save { |asset| asset.asset_symbol = asset_symbol.upcase }
   
   after_save :populatepricehistory
   
@@ -30,7 +30,7 @@ class Asset < ActiveRecord::Base
   	def populatepricehistory
       numberofdays = 1000
       unless AssetHistory.find_by_asset_symbol(self.asset_symbol).nil?
-        mostrecentdate = AssetHistory.find(:all, :select=>'date',:order=>'date DESC',:conditions=>{:asset_symbol=>'aapl'},:limit=>1)
+        mostrecentdate = AssetHistory.find(:all, :select=>'date',:order=>'date DESC',:conditions=>{:asset_symbol=>self.asset_symbol},:limit=>1)
         numberofdays = (Date.today - mostrecentdate[0].date).to_i
       end
       
@@ -43,8 +43,9 @@ class Asset < ActiveRecord::Base
       
 
       assethistoryids = AssetHistory.find(:all, :select=>'id', :conditions=>{:asset_symbol=>self.asset_symbol})
+      ahids = "(#{assethistoryids.map{|a| "#{a.id}"}.join(",")})"
       values = assethistoryids.map{|assethistory| "(#{self.id},#{assethistory.id})"}.join(",") 
-      ActiveRecord::Base.connection.execute("INSERT INTO asset_histories_assets (asset_id,asset_history_id) VALUES #{values}") 
+      ActiveRecord::Base.connection.execute("WITH notinyet(asset_id,asset_history_id) AS (VALUES#{values}) INSERT INTO asset_histories_assets (asset_id,asset_history_id) SELECT * FROM notinyet WHERE NOT EXISTS(SELECT asset_id FROM asset_histories_assets WHERE asset_id = #{self.id} AND asset_history_id IN #{ahids})")
   	end
 
     # first we set the number of days of price history to 1000. This is the default.
@@ -99,4 +100,25 @@ class Asset < ActiveRecord::Base
     # SQL statement. It is asset_histories_assets. This is because rails convention requires the Join table
     # to be the pluralized version of both models, in alphabetical order. Also, they denote the underscore
     # as being before a letter, thus asset_ comes before assets. 
+
+    # the SQL statement can be understood like:
+    # the WITH statement is used to label what we are looking at. By giving it a name we can reference it later.
+    # In this case I named the values 'notinyet' and wrote (asset_id,asset_history_id) AS VALUES.
+    # This makes it so that asset_id is associated with the first value and asset_history_id with the second.
+    # I then use the 'INSERT INTO tablename' to denote the table I will be inserting into.
+    # Next I choose the values. Normally you can type INSERT INTO tablename VALUES values, but in this case
+    # we needed to check everything we were inserting. Thus we can't use that easier syntax. 
+    # After denoting the table we INSERT INTO, we need to denote the values we will take.
+    # Because we can't use the easier syntax, we now make use of the WITH statement we used earlier.
+    # We SELECT * FROM notinyet. Which is to say we take everything from that table. Remember that table
+    # was just the values which is what we need. Next we use the WHERE statement which determines an action
+    # based on if it evaluates to true. In this case, true results in the value being inserted.
+    # If it is false, then it is not inserted. EXISTS is the next command, a boolean which tests whether
+    # a query evaluates to true. Inside the EXISTS, we run a query to SELECT asset_id FROM asset_histories_assets table
+    # WHERE the asset_id is equal to the asset id we just created and the asset_history_id is in the lits of ids we have for that asset. 
+    # In otherwords, we already know this asset exists in our database. We know it exists, because we just added it.
+    # We also just populated the price history. Now we want to know what's the id for these price histories and the id for this asset.
+    # Combined with the WHERE NOT EXISTS, we are testing if the ids are NOT in our database.
+    # If they aren't it adds it in. If it is, the WHERE NOT EXISTS statement evaluates to false and nothing is added
+    # This one is complicated, but you shouldn't have to deal with this complicated SQL statements often.
 end

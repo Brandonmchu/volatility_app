@@ -44,7 +44,6 @@ module SessionsHelper
 	end
 
 	# This method is explained in the asset.rb model
-	# There is a difference in the SQL statement to prevent duplicates from being added into the Join Table. 
 	def updateassets 
 		current_user.assets.each do |assetentry|
 		   	mostrecentdate = AssetHistory.find(:all, :select=>'date',:order=>'date DESC',:conditions=>{:asset_symbol=>assetentry.asset_symbol},:limit=>1)
