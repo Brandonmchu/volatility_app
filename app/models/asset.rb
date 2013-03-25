@@ -24,7 +24,7 @@ class Asset < ActiveRecord::Base
 
   before_save { |asset| asset.asset_symbol = asset_symbol.upcase }
   
-  after_save :populatepricehistory
+  after_create :populatepricehistory
   
   private
   	def populatepricehistory
@@ -37,10 +37,14 @@ class Asset < ActiveRecord::Base
       prices = YahooFinance::get_historical_quotes_days(self.asset_symbol,numberofdays) 
 
       unless prices.empty?
-        prices.each do |line| 
-          line.push(self.asset_symbol) 
+        (0..prices.size-2).each do |n|
+          percentchange = prices[n][4].to_f/prices[n+1][4].to_f-1
+          prices[n].push(self.asset_symbol)
+          prices[n].push(percentchange)
         end
-        columns = [:date,:open,:high,:low,:close,:volume,:adjusted_close,:asset_symbol]
+        prices[-1].push(self.asset_symbol)
+        prices[-1].push(nil)
+        columns = [:date,:open,:high,:low,:close,:volume,:adjusted_close,:asset_symbol,:percent_change]
         AssetHistory.transaction do
           ActiveRecord::Base.connection.execute('LOCK TABLE asset_histories IN EXCLUSIVE MODE')
           AssetHistory.import columns,prices
@@ -64,11 +68,12 @@ class Asset < ActiveRecord::Base
     
     # prices = ... is the Yahoo Finance API which gets an array of data looking like 
     # {[date,open, close,high,low,volume,adjusted_close],[date2,open2,close2,high2,low2,volume2,adjusted_close2] etc.}
-    # Next we check if prices.empty? This whenever the data is up to date. If it is, we skip the whole populating price history
+    # Next we check if prices.empty? to see if the data is up to date. If it is, we skip the whole populating price history
     # since we don't need to populate the price history.
 
     # If it isn't empty, the rest of the block runs...
-    # We iterate through the prices to add the stock symbol to that array because that is needed
+    # We iterate through the prices to add the stock symbol to that array
+    # We also add the percentage price difference between now and the previous day.
 
     # We will use activerecord-import gem to mass insert into the database.
     # Part of the mass insert requirements is to list the column names in an array

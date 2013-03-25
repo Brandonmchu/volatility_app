@@ -57,10 +57,15 @@ module SessionsHelper
         	numberofdays = (Date.today - mostrecentdate[0].date).to_i
         	prices = YahooFinance::get_historical_quotes_days(assetentry.asset_symbol,numberofdays) 
 	      	unless prices.empty?
-	      		prices.each do |priceentry| 
-	        		priceentry.push(assetentry.asset_symbol) 
-	      		end
-	      		columns = [:date,:open,:high,:low,:close,:volume,:adjusted_close,:asset_symbol]
+	      		(0..prices.size-2).each do |n|
+          			percentchange = prices[n][4].to_f/prices[n+1][4].to_f-1
+          			prices[n].push(assetentry.asset_symbol)
+          			prices[n].push(percentchange)
+        		end
+	      		prices[-1].push(assetentry.asset_symbol)
+	      		prevdata = AssetHistory.where("asset_symbol = ?", assetentry.asset_symbol).order('date DESC').limit(1).where('date < ?', prices[-1][0])
+        		prices[-1].push(prices[-1][4].to_f/prevdata[0].close.to_f-1)
+           		columns = [:date,:open,:high,:low,:close,:volume,:adjusted_close,:asset_symbol,:percent_change]
 	      		AssetHistory.transaction do
 	        		ActiveRecord::Base.connection.execute('LOCK TABLE asset_histories IN EXCLUSIVE MODE')
 	      			AssetHistory.import columns,prices 

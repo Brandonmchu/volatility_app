@@ -11,6 +11,7 @@
 #  volume         :integer
 #  adjusted_close :float
 #  asset_symbol   :string(255)
+#  percent_change :float
 #
 
 require 'spec_helper'

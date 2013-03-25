@@ -1,5 +1,5 @@
 <%= form_for [:portfolio, @asset], :url=> asset_path(asset.id), :html=>{:method=>"put"} do |f|%>
-
+  <%= hidden_field_tag :portfolio_id, params[:id]%>
 <tr>
 
 	<td>

@@ -35,11 +35,11 @@ class AssetsController < ApplicationController
 	def update
 		@asset = Asset.find_by_id(params[:id])
 		if @asset.update_attributes(params[:asset])
-			redirect_to edit_portfolio_path(current_portfolio.id)
+			redirect_to edit_portfolio_path(params[:portfolio_id])
 			flash.now[:success] = "Asset info Updated!"
 		else
 			flash[:error] = "Asset Not Updated. Please make sure all fields are filled out."
-      redirect_to edit_portfolio_path(current_portfolio.id)
+      		redirect_to edit_portfolio_path(params[:portfolio_id])
 		end
 	end
 
