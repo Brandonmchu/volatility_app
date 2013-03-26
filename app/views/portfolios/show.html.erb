@@ -10,37 +10,53 @@
 
 <script>
 $(function () { 
-    $('#chart').highcharts({
-        chart: {
-            type: 'bar'
+    new Highcharts.Chart({
+        chart:{
+            renderTo: 'chart'
+        },
+        plotOptions:{
+            series:{
+                marker:{
+                    enabled: false
+                }
+            }
         },
         title: {
-            text: 'Fruit Consumption'
+            text: 'Rolling Standard Deviation'
         },
         xAxis: {
-            categories: ['Apples', 'Bananas', 'Oranges']
+            type: 'datetime'
         },
         yAxis: {
             title: {
-                text: 'Fruit eaten'
+                text: '% Deviation'
+
             }
         },
-        series: [{
-            name: 'Jane',
-            data: [1, 0, 4]
-        }, {
-            name: 'John',
-            data: [5, 7, 3]
-        }]
+        series: [<% @current_portfolio.assets.each do |asset|%>
+        {
+            name: '<%=asset.asset_symbol%>',
+            data: <%=(1.year.ago.to_date..Date.today).map {|date| [date.to_datetime.to_i*1000,AssetHistory.stdev(date.to_s,asset.asset_symbol,20)*100]}.inspect %>
+        },
+        <%end%>
+        ]
     });
 });
 </script>
 
 <div id = "chart"> </div>
 
+<%=2.weeks.ago.to_i%>,
+<%=(2.weeks.ago.to_date..Date.today).map {|date| [date.to_datetime.to_i,AssetHistory.stdev(date.to_s,'AAPL',20)*100]}.inspect %>
+
 <br>
 <br>
-Currently viewing <%= @current_portfolio.portfolio_name%>
+Currently viewing <%= @current_portfolio.portfolio_name%>. The assets in this portfolio include:
+<br>
+<br>
+<% @current_portfolio.assets.each do |asset|%>
+<%= asset.asset_symbol%><br>
+<%end%>
 <br>
 <br>
 Select a different Portfolio to view:

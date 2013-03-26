@@ -25,8 +25,11 @@ class Asset < ActiveRecord::Base
   before_save { |asset| asset.asset_symbol = asset_symbol.upcase }
   
   after_create :populatepricehistory
+
+ 
   
   private
+
   	def populatepricehistory
       numberofdays = 1000
       unless AssetHistory.find_by_asset_symbol(self.asset_symbol).nil?
