@@ -3,16 +3,27 @@
 <%end%>
 
 <%= javascript_include_tag "jquery-1.9.1.min"%>
+<%= javascript_include_tag "highstock" %>
 
-<%= javascript_include_tag "highcharts" %>
 
 
 
 <script>
 $(function () { 
-    new Highcharts.Chart({
+    var mychart = new Highcharts.StockChart({
         chart:{
             renderTo: 'chart'
+        },
+        rangeSelector:{
+            enabled: true,
+            selected: 4,
+            inputPosition:{
+                align: "right",
+                x: -75
+            }
+        },
+        navigator:{
+            enabled: true
         },
         plotOptions:{
             series:{
@@ -21,8 +32,14 @@ $(function () {
                 }
             }
         },
+        legend:{
+            enabled:true,
+            align:'right',
+            layout: 'vertical',
+            verticalAlign: 'middle'
+        },
         title: {
-            text: 'Rolling Standard Deviation'
+            text: 'Rolling 1 Month Standard Deviation'
         },
         xAxis: {
             type: 'datetime'
@@ -36,18 +53,55 @@ $(function () {
         series: [<% @current_portfolio.assets.each do |asset|%>
         {
             name: '<%=asset.asset_symbol%>',
-            data: <%=(1.year.ago.to_date..Date.today).map {|date| [date.to_datetime.to_i*1000,AssetHistory.stdev(date.to_s,asset.asset_symbol,20)*100]}.inspect %>
+            data:<%= AssetHistory.stdev(asset.asset_symbol,90)%>,
+            tooltip:{
+                valueDecimals:3
+            }
         },
         <%end%>
         ]
+
+
+    });
+     window['mychart'] = mychart;
+});
+
+
+
+$(function(){
+    $('#display1m').click(function() {
+        <% (0...@current_portfolio.assets.length).each do |n| %>
+        mychart.series[<%=n%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],21)%>,true);
+        <%end%>
+        mychart.setTitle({text:"Rolling 1 Month Standard Deviation"});
     });
 });
+$(function(){
+$('#display3m').click(function() {
+        <% (0...@current_portfolio.assets.length).each do |n| %>
+        mychart.series[<%=n%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],63)%>,true);
+        <%end%>
+        mychart.setTitle({text:"Rolling 1 Quarter Standard Deviation"});
+    });
+});
+$(function(){
+$('#display12m').click(function() {
+        <% (0...@current_portfolio.assets.length).each do |n| %>
+        mychart.series[<%=n%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],252)%>,true);
+        <%end%>
+        mychart.setTitle({text:"Rolling 1 Year Standard Deviation"});
+    });
+});
+
+
 </script>
 
-<div id = "chart"> </div>
 
-<%=2.weeks.ago.to_i%>,
-<%=(2.weeks.ago.to_date..Date.today).map {|date| [date.to_datetime.to_i,AssetHistory.stdev(date.to_s,'AAPL',20)*100]}.inspect %>
+<div id = "chart"> </div>
+<button id="display1m"> 1 Month </button>
+<button id="display3m"> 1 Quarter</button>
+<button id="display12m">1 Year </button>
+
 
 <br>
 <br>

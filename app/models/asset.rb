@@ -38,16 +38,22 @@ class Asset < ActiveRecord::Base
       end
 
       prices = YahooFinance::get_historical_quotes_days(self.asset_symbol,numberofdays) 
+      #percentsonly =[]
 
       unless prices.empty?
-        (0..prices.size-2).each do |n|
+        (0...prices.size-1).each do |n|
           percentchange = prices[n][4].to_f/prices[n+1][4].to_f-1
           prices[n].push(self.asset_symbol)
           prices[n].push(percentchange)
+          percentsonly.push(percentchange)
         end
         prices[-1].push(self.asset_symbol)
         prices[-1].push(nil)
-        columns = [:date,:open,:high,:low,:close,:volume,:adjusted_close,:asset_symbol,:percent_change]
+        #percentsonly.push(nil)
+
+        #percentsonly.reverse!
+
+        columns = [:date,:open,:high,:low,:close,:volume,:adjusted_close,:asset_symbol,:percent_change,:stdev21day,:stdev63day,:stdev252day]
         AssetHistory.transaction do
           ActiveRecord::Base.connection.execute('LOCK TABLE asset_histories IN EXCLUSIVE MODE')
           AssetHistory.import columns,prices

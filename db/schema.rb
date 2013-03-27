@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130325015525) do
+ActiveRecord::Schema.define(:version => 20130326225456) do
 
   create_table "asset_histories", :force => true do |t|
     t.date    "date"
@@ -23,6 +23,9 @@ ActiveRecord::Schema.define(:version => 20130325015525) do
     t.float   "adjusted_close"
     t.string  "asset_symbol"
     t.float   "percent_change"
+    t.float   "stdev21day"
+    t.float   "stdev63day"
+    t.float   "stdev252day"
   end
 
   add_index "asset_histories", ["asset_symbol"], :name => "index_asset_histories_on_asset_symbol"

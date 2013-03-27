@@ -12,6 +12,9 @@
 #  adjusted_close :float
 #  asset_symbol   :string(255)
 #  percent_change :float
+#  stdev21day     :float
+#  stdev63day     :float
+#  stdev252day    :float
 #
 
 class AssetHistory < ActiveRecord::Base
@@ -20,13 +23,28 @@ class AssetHistory < ActiveRecord::Base
 
   validates_uniqueness_of :asset_symbol, scope: [:date]
 
- #def get_stdev(day,symbol,daystocheck)
-#		a = ActiveRecord::Base.connection.raw_connection
-#	    a.prepare('get_stdev',"WITH numberofdays AS (SELECT percent_change FROM asset_histories WHERE date < $1 AND asset_symbol =$2 ORDER BY date DESC LIMIT $3) SELECT stddev_samp(percent_change) as stdev_percent_change")
-#	    a.exec_prepared('get_stdev',[day,symbol,daystocheck])
-#	    a.close
- #end
 
+
+	def self.stdev(symbol,daystocheck)
+		a = where('asset_symbol = ?',symbol).select('date,percent_change').order('date DESC')
+		stdevarray = []
+		(0...a.length-daystocheck).each do |n|
+			percentonly =[]
+			(n..n+daystocheck-1).each do |m|
+				percentonly.push(a[m]['percent_change'])
+			end
+			mean = percentonly.sum/daystocheck
+			variance = percentonly.inject(0){|accum,i|accum + (i-mean)**2}
+			std = Math.sqrt(variance/(daystocheck-1))*100
+			stdevarray.push([a[n]['date'].to_datetime.to_i*1000,std])
+		end
+		(a.length-daystocheck...a.length).each do |n|
+			stdevarray.push([a[n]['date'].to_datetime.to_i*1000,nil])
+		end
+		return stdevarray.reverse!.to_json
+	end
+
+=begin
 	def self.stdev(day,symbol,daystocheck)
 	 	a = select('date,percent_change').where('asset_symbol = ? AND date < ?',symbol,day).limit(daystocheck).order('date DESC')
 		if a[-1]['percent_change'] == nil
@@ -42,4 +60,6 @@ class AssetHistory < ActiveRecord::Base
 			return std
 		end
 	end
+=end
+
 end
