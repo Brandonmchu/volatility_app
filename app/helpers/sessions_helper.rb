@@ -50,7 +50,7 @@ module SessionsHelper
 	# the join table will only show the previous user's association to that stock history. Thus in the 
 	# populatepricehistory function unless prices.empty? only encompasses the middle commands. Here,
 	# if prices.empty? is true, we skip the whole thing, so the 'end' is below everything.
-=begin
+
 	def updateassets 
 		current_user.assets.each do |assetentry|
 		   	mostrecentdate = AssetHistory.find(:all, :select=>'date',:order=>'date DESC',:conditions=>{:asset_symbol=>assetentry.asset_symbol},:limit=>1)
@@ -80,7 +80,7 @@ module SessionsHelper
 	      	end
       	end
     end
-=end
+
   
 
 end
