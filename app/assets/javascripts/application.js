@@ -11,7 +11,6 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery-1.9.1.min
-//= require_tree ../../../vendor/assets/javascripts/.
 //= require jquery_ujs
 //= require jquery.numeric
 //= require_tree .
