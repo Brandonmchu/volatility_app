@@ -33,31 +33,30 @@ class Asset < ActiveRecord::Base
   	def populatepricehistory
       numberofdays = 1000
       unless AssetHistory.find_by_asset_symbol(self.asset_symbol).nil?
-        mostrecentdate = AssetHistory.find(:all, :select=>'date',:order=>'date DESC',:conditions=>{:asset_symbol=>self.asset_symbol},:limit=>1)
-        numberofdays = (Date.today - mostrecentdate[0].date).to_i
+          mostrecentdate = AssetHistory.find(:all, :select=>'date',:order=>'date DESC',:conditions=>{:asset_symbol=>self.asset_symbol},:limit=>1)
+          numberofdays = (Date.today - mostrecentdate[0].date).to_i
       end
 
       prices = YahooFinance::get_historical_quotes_days(self.asset_symbol,numberofdays) 
-      #percentsonly =[]
+    
 
       unless prices.empty?
         (0...prices.size-1).each do |n|
           percentchange = prices[n][4].to_f/prices[n+1][4].to_f-1
           prices[n].push(self.asset_symbol)
           prices[n].push(percentchange)
-          percentsonly.push(percentchange)
         end
+        
         prices[-1].push(self.asset_symbol)
         prices[-1].push(nil)
-        #percentsonly.push(nil)
+    
 
-        #percentsonly.reverse!
-
-        columns = [:date,:open,:high,:low,:close,:volume,:adjusted_close,:asset_symbol,:percent_change,:stdev21day,:stdev63day,:stdev252day]
+        columns = [:date,:open,:high,:low,:close,:volume,:adjusted_close,:asset_symbol,:percent_change]
         AssetHistory.transaction do
           ActiveRecord::Base.connection.execute('LOCK TABLE asset_histories IN EXCLUSIVE MODE')
           AssetHistory.import columns,prices
         end
+
       end  
 
       assethistoryids = AssetHistory.find(:all, :select=>'id', :conditions=>{:asset_symbol=>self.asset_symbol})

@@ -38,7 +38,7 @@ before_filter :has_one_portfolio, only: [:destroy]
 
 	def new
 		@portfolio = current_user.portfolios.new
-		3.times {@portfolio.assets.build}
+		10.times {@portfolio.assets.build}
 		@asset = Asset.new
 	end
 

@@ -50,13 +50,13 @@ module SessionsHelper
 	# the join table will only show the previous user's association to that stock history. Thus in the 
 	# populatepricehistory function unless prices.empty? only encompasses the middle commands. Here,
 	# if prices.empty? is true, we skip the whole thing, so the 'end' is below everything.
-
+=begin
 	def updateassets 
 		current_user.assets.each do |assetentry|
 		   	mostrecentdate = AssetHistory.find(:all, :select=>'date',:order=>'date DESC',:conditions=>{:asset_symbol=>assetentry.asset_symbol},:limit=>1)
         	numberofdays = (Date.today - mostrecentdate[0].date).to_i
         	prices = YahooFinance::get_historical_quotes_days(assetentry.asset_symbol,numberofdays) 
-	      	unless prices.empty?
+	      	unless prices.empty? || prices[0][0].to_date ==mostrecentdate[0].date
 	      		(0..prices.size-2).each do |n|
           			percentchange = prices[n][4].to_f/prices[n+1][4].to_f-1
           			prices[n].push(assetentry.asset_symbol)
@@ -80,7 +80,7 @@ module SessionsHelper
 	      	end
       	end
     end
-
+=end
   
 
 end
