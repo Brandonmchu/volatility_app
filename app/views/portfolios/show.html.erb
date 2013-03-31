@@ -39,7 +39,7 @@ $(function () {
             verticalAlign: 'middle'
         },
         title: {
-            text: 'Annualized Rolling 1 Month Standard Deviation'
+            text: 'Rolling 1 Month Standard Deviation'
         },
         xAxis: {
             type: 'datetime'
@@ -50,7 +50,14 @@ $(function () {
 
             }
         },
-        series: [<% @current_portfolio.assets.each do |asset|%>
+        series: [ {
+            name: 'Portfolio',
+            data:<%= AssetHistory.portfoliostdev(@current_portfolio.id,@current_portfolio.assets.count,21)%>,
+            tooltip:{
+                valueDecimals:3
+            }
+        },
+        <% @current_portfolio.assets.each do |asset|%>
         {
             name: '<%=asset.asset_symbol%>',
             data:<%= AssetHistory.stdev(asset.asset_symbol,21)%>,
@@ -70,26 +77,29 @@ $(function () {
 
 $(function(){
     $('#display1m').click(function() {
+        mychart.series[0].setData( <%= AssetHistory.portfoliostdev(@current_portfolio.id,@current_portfolio.assets.count,21)%>,true);
         <% (0...@current_portfolio.assets.length).each do |n| %>
-        mychart.series[<%=n%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],21)%>,true);
+        mychart.series[<%=n+1%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],21)%>,true);
         <%end%>
-        mychart.setTitle({text:"Annualized Rolling 1 Month Standard Deviation"});
+        mychart.setTitle({text:"Rolling 1 Month Standard Deviation"});
     });
 });
 $(function(){
 $('#display3m').click(function() {
+        mychart.series[0].setData( <%= AssetHistory.portfoliostdev(@current_portfolio.id,@current_portfolio.assets.count,63)%>,true);
         <% (0...@current_portfolio.assets.length).each do |n| %>
-        mychart.series[<%=n%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],63)%>,true);
+        mychart.series[<%=n+1%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],63)%>,true);
         <%end%>
-        mychart.setTitle({text:"Annualized Rolling 1 Quarter Standard Deviation"});
+        mychart.setTitle({text:"Rolling 1 Quarter Standard Deviation"});
     });
 });
 $(function(){
 $('#display12m').click(function() {
+        mychart.series[0].setData( <%= AssetHistory.portfoliostdev(@current_portfolio.id,@current_portfolio.assets.count,252)%>,true);
         <% (0...@current_portfolio.assets.length).each do |n| %>
-        mychart.series[<%=n%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],252)%>,true);
+        mychart.series[<%=n+1%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],252)%>,true);
         <%end%>
-        mychart.setTitle({text:"Annualized Rolling 1 Year Standard Deviation"});
+        mychart.setTitle({text:"Rolling 1 Year Standard Deviation"});
     });
 });
 

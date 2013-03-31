@@ -27,5 +27,11 @@ def self.stdev(symbol,daystocheck)
 	return a.drop(daystocheck).to_json
 end
 
+def self.portfoliostdev(portfolioid,numberofassets,daystocheck)
+	a =[]
+	q = ActiveRecord::Base.connection.method(:quote)
+	ActiveRecord::Base.connection.execute(%Q{WITH totalportfolio AS (SELECT date,sum(shares*close) AS totalpvalue, -1+sum(shares*close)/lag(sum(shares*close)) OVER (ORDER BY date) AS totalpctchange FROM asset_histories,assets WHERE assets.asset_symbol = asset_histories.asset_symbol AND assets.portfolio_id = #{q[portfolioid]} GROUP BY date HAVING count(date) =#{q[numberofassets]} ORDER BY date) SELECT date,(|/250)*stddev_samp(totalpctchange) OVER(ORDER BY date ROWS BETWEEN #{q[daystocheck-1]} PRECEDING AND 0 FOLLOWING) AS stdev FROM totalportfolio}).each {|tuple| a.push([tuple['date'].to_datetime.to_i*1000,tuple['stdev'].to_f])}
+	return a.drop(daystocheck).to_json
+end
 	
 end
