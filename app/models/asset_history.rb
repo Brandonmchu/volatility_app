@@ -11,10 +11,6 @@
 #  volume         :integer
 #  adjusted_close :float
 #  asset_symbol   :string(255)
-#  percent_change :float
-#  stdev21day     :float
-#  stdev63day     :float
-#  stdev252day    :float
 #
 
 class AssetHistory < ActiveRecord::Base

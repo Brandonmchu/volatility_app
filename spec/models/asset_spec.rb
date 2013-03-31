@@ -3,7 +3,6 @@
 # Table name: assets
 #
 #  id            :integer          not null, primary key
-#  asset_name    :string(255)
 #  asset_symbol  :string(255)
 #  shares        :float
 #  cost          :float

@@ -3,7 +3,6 @@
 # Table name: assets
 #
 #  id            :integer          not null, primary key
-#  asset_name    :string(255)
 #  asset_symbol  :string(255)
 #  shares        :float
 #  cost          :float
@@ -40,7 +39,7 @@ class Asset < ActiveRecord::Base
       prices = YahooFinance::get_historical_quotes_days(self.asset_symbol,numberofdays) 
     
 
-      unless prices.empty? prices[0][0].to_date ==mostrecentdate[0].date
+      unless prices.empty? || prices[0][0].to_date ==mostrecentdate[0].date
         (0...prices.size).each do |n|
           prices[n].push(self.asset_symbol)
         end
