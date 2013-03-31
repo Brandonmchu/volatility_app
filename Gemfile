@@ -9,6 +9,7 @@ gem 'bootstrap-will_paginate', '0.0.6'
 gem 'yahoofinance', "1.2.2"
 gem 'activerecord-import', '0.3.1'
 gem 'valkyrie', '0.0.2'
+gem 'skrollr-rails'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

@@ -131,6 +131,8 @@ GEM
       rubyzip
       websocket (~> 1.0.4)
     sequel (3.31.0)
+    skrollr-rails (0.5.14)
+      rails (>= 3.1.0)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -171,6 +173,7 @@ DEPENDENCIES
   rails (= 3.2.12)
   rspec-rails (= 2.11.0)
   sass-rails (= 3.2.5)
+  skrollr-rails
   uglifier (= 1.2.3)
   valkyrie (= 0.0.2)
   will_paginate (= 3.0.3)

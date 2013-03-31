@@ -1,4 +1,24 @@
-// Place all the styles related to the static_pages controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.background-image {
+  background: url('stockmarket2.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 
+.landing-container {
+  height:2000px;
+}
+
+.hero-container{
+  position:fixed;
+  bottom: 50px;
+  right:50px;
+  font-family: 'Source Sans Pro', sans-serif;
+
+}
+
+.hero-container h1{
+  font-size: 60px;
+  line-height: 70px;
+}

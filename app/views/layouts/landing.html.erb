@@ -3,22 +3,15 @@
 <head>
   <title>Volatility App</title>
   <%= stylesheet_link_tag    "application" %>
-  <%= stylesheet_link_tag    "//fonts.googleapis.com/css?family=Lato:100,300,400,700,900" %>
+  <%= stylesheet_link_tag    "//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900" %>
   <%= stylesheet_link_tag    "//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <%= yield :head %>
 </head>
 <body>
-  <div class="main-container">
-    <% flash.each do |key, value| %>
-      <div class="alert alert-<%= key %>"><%= value %></div>
-    <% end %>
-    <div class="main-header">
 
       <%= yield %>
-
-    </div>
-  </div>
 
 </body>
 </html>
