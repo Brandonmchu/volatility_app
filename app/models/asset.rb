@@ -30,34 +30,35 @@ class Asset < ActiveRecord::Base
   private
 
   	def populatepricehistory
-      numberofdays = 1000
-      unless AssetHistory.find_by_asset_symbol(self.asset_symbol).nil?
-          mostrecentdate = AssetHistory.find(:all, :select=>'date',:order=>'date DESC',:conditions=>{:asset_symbol=>self.asset_symbol},:limit=>1)
-          numberofdays = (Date.today - mostrecentdate[0].date).to_i
-      end
-
-      prices = YahooFinance::get_historical_quotes_days(self.asset_symbol,numberofdays) 
-    
-
-      unless prices.empty? || prices[0][0].to_date ==mostrecentdate[0].date
-        (0...prices.size).each do |n|
-          prices[n].push(self.asset_symbol)
+        numberofdays = 1000
+        unless AssetHistory.find_by_asset_symbol(self.asset_symbol).nil?
+            mostrecentdate = AssetHistory.find(:all, :select=>'date',:order=>'date DESC',:conditions=>{:asset_symbol=>self.asset_symbol},:limit=>1)
+            numberofdays = (Date.today - mostrecentdate[0].date).to_i
         end
+
+        prices = YahooFinance::get_historical_quotes_days(self.asset_symbol,numberofdays) 
         
-        columns = [:date,:open,:high,:low,:close,:volume,:adjusted_close,:asset_symbol]
-        AssetHistory.transaction do
-          ActiveRecord::Base.connection.execute('LOCK TABLE asset_histories IN EXCLUSIVE MODE')
-          AssetHistory.import columns,prices
+
+          unless prices.empty?
+            (0...prices.size).each do |n|
+              prices[n].push(self.asset_symbol)
+            end
+            
+            columns = [:date,:open,:high,:low,:close,:volume,:adjusted_close,:asset_symbol]
+            AssetHistory.transaction do
+              ActiveRecord::Base.connection.execute('LOCK TABLE asset_histories IN EXCLUSIVE MODE')
+              AssetHistory.import columns,prices
+            end
+
+          end  
+        
+
+        assethistoryids = AssetHistory.find(:all, :select=>'id', :conditions=>{:asset_symbol=>self.asset_symbol})
+        values = assethistoryids.map{|assethistory| "(#{self.id},#{assethistory.id})"}.join(",")
+        ActiveRecord::Base.transaction do
+          ActiveRecord::Base.connection.execute('LOCK TABLE asset_histories_assets IN EXCLUSIVE MODE')
+          ActiveRecord::Base.connection.execute("WITH notinyet(asset_id,asset_history_id) AS (VALUES#{values}) INSERT INTO asset_histories_assets (asset_id,asset_history_id) SELECT * FROM notinyet WHERE NOT EXISTS(SELECT * FROM asset_histories_assets INNER JOIN notinyet ON asset_histories_assets.asset_id = #{self.id} AND asset_histories_assets.asset_history_id = notinyet.asset_history_id)")
         end
-
-      end  
-
-      assethistoryids = AssetHistory.find(:all, :select=>'id', :conditions=>{:asset_symbol=>self.asset_symbol})
-      values = assethistoryids.map{|assethistory| "(#{self.id},#{assethistory.id})"}.join(",")
-      ActiveRecord::Base.transaction do
-        ActiveRecord::Base.connection.execute('LOCK TABLE asset_histories_assets IN EXCLUSIVE MODE')
-        ActiveRecord::Base.connection.execute("WITH notinyet(asset_id,asset_history_id) AS (VALUES#{values}) INSERT INTO asset_histories_assets (asset_id,asset_history_id) SELECT * FROM notinyet WHERE NOT EXISTS(SELECT * FROM asset_histories_assets INNER JOIN notinyet ON asset_histories_assets.asset_id = #{self.id} AND asset_histories_assets.asset_history_id = notinyet.asset_history_id)")
-      end
   	end
 
     # first we set the number of days of price history to 1000. This is the default.
