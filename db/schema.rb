@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130326225456) do
+ActiveRecord::Schema.define(:version => 20130331081157) do
 
   create_table "asset_histories", :force => true do |t|
     t.date    "date"
@@ -22,10 +22,6 @@ ActiveRecord::Schema.define(:version => 20130326225456) do
     t.integer "volume"
     t.float   "adjusted_close"
     t.string  "asset_symbol"
-    t.float   "percent_change"
-    t.float   "stdev21day"
-    t.float   "stdev63day"
-    t.float   "stdev252day"
   end
 
   add_index "asset_histories", ["asset_symbol"], :name => "index_asset_histories_on_asset_symbol"
@@ -39,7 +35,6 @@ ActiveRecord::Schema.define(:version => 20130326225456) do
   add_index "asset_histories_assets", ["asset_id", "asset_history_id"], :name => "index_asset_histories_assets_on_asset_id_and_asset_history_id", :unique => true
 
   create_table "assets", :force => true do |t|
-    t.string   "asset_name"
     t.string   "asset_symbol"
     t.float    "shares"
     t.float    "cost"

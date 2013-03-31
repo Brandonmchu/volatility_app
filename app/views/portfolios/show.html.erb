@@ -39,7 +39,7 @@ $(function () {
             verticalAlign: 'middle'
         },
         title: {
-            text: 'Rolling 1 Month Standard Deviation'
+            text: 'Annualized Rolling 1 Month Standard Deviation'
         },
         xAxis: {
             type: 'datetime'
@@ -53,7 +53,7 @@ $(function () {
         series: [<% @current_portfolio.assets.each do |asset|%>
         {
             name: '<%=asset.asset_symbol%>',
-            data:<%= AssetHistory.stdev(asset.asset_symbol,90)%>,
+            data:<%= AssetHistory.stdev(asset.asset_symbol,21)%>,
             tooltip:{
                 valueDecimals:3
             }
@@ -73,7 +73,7 @@ $(function(){
         <% (0...@current_portfolio.assets.length).each do |n| %>
         mychart.series[<%=n%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],21)%>,true);
         <%end%>
-        mychart.setTitle({text:"Rolling 1 Month Standard Deviation"});
+        mychart.setTitle({text:"Annualized Rolling 1 Month Standard Deviation"});
     });
 });
 $(function(){
@@ -81,7 +81,7 @@ $('#display3m').click(function() {
         <% (0...@current_portfolio.assets.length).each do |n| %>
         mychart.series[<%=n%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],63)%>,true);
         <%end%>
-        mychart.setTitle({text:"Rolling 1 Quarter Standard Deviation"});
+        mychart.setTitle({text:"Annualized Rolling 1 Quarter Standard Deviation"});
     });
 });
 $(function(){
@@ -89,7 +89,7 @@ $('#display12m').click(function() {
         <% (0...@current_portfolio.assets.length).each do |n| %>
         mychart.series[<%=n%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],252)%>,true);
         <%end%>
-        mychart.setTitle({text:"Rolling 1 Year Standard Deviation"});
+        mychart.setTitle({text:"Annualized Rolling 1 Year Standard Deviation"});
     });
 });
 
@@ -110,6 +110,7 @@ Currently viewing <%= @current_portfolio.portfolio_name%>. The assets in this po
 <br>
 <% @current_portfolio.assets.each do |asset|%>
 <%= asset.asset_symbol%><br>
+
 <%end%>
 <br>
 <br>
