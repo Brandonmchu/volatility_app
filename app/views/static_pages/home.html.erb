@@ -4,5 +4,10 @@ Hello World Welcome <%= current_user.name %> You are signed in. Please <%=link_t
 This is where we will display your friends portfolios to view.
 
 <%else%>
-You are not signed in. Please <%=link_to "Log in", login_path%> or <%=link_to "Register", register_path%> for an account.
+
+<div class="row-fluid">
+  <div class="span6">You are not signed in. Please <%=link_to "Log in", login_path%> or <%=link_to "Register", register_path, class: "btn" %> for an account.
+  </div>
+</div>
+
 <%end%>
