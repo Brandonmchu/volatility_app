@@ -85,7 +85,7 @@ root.YAHOO = {}
 
 $(document).ready ->
   YUI(filter: "raw").use "datasource-get", "datasource-jsonschema", "autocomplete", (Y) ->
-    oDS = Y.one("#ac-input")
+    oDS = Y.one(".ac-input")
     acNode = Y.one("#ac-input")
     oDS = new Y.DataSource.Get(
       source: "http://d.yimg.com/aq/autoc?query="

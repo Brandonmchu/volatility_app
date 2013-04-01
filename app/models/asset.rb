@@ -13,7 +13,7 @@
 #
 
 class Asset < ActiveRecord::Base
-  attr_accessible :asset_name, :asset_symbol, :cost, :portfolio_id, :purchase_date, :shares
+  attr_accessible :asset_symbol, :cost, :portfolio_id, :purchase_date, :shares
   validates :asset_symbol, presence: true
   validates :shares, presence: true
   validates :cost, presence: true

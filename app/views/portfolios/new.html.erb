@@ -21,6 +21,7 @@ to 'has_many assets' and Assets 'belong to portfolios'. You have also included '
 
 <div id= "new-asset-table">
   <div class="yui3-skin-sam">
+
   <table>
       <tr>
         <th>Ticker</th>
@@ -37,8 +38,9 @@ to 'has_many assets' and Assets 'belong to portfolios'. You have also included '
     <%end%>
     
   </table>
+
   <p><%= link_to_add_assets "Add Asset", f, :assets %></p>
-  <br></br>
+  <br>
   <p><%= f.submit "Create a portfolio"%></p>
   <%end%>
   

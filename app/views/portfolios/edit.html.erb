@@ -45,7 +45,23 @@
   </table>
 </div>
 
+<br><br>
+<h1>Add Additional Assets</h1>
 
+<%= form_for @current_portfolio do |f|%>
+  <%= hidden_field_tag :portfolio_id, params[:id]%>
+  <%= hidden_field_tag :editpage, 'true'%>
+
+  <%= f.fields_for :assets do |assetform|%>
+  <%= render "asset_form", :a => assetform %> 
+  <%end%>
+
+<p><%= link_to_add_assets "Add More Assets", f, :assets %></p>
+<br>
+<p>
+<%=f.submit "Submit Additional Assets", :class => 'add-additional-assets' %></p>
+
+<%end%>
 
 
 

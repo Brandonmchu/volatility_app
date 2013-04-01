@@ -16,6 +16,6 @@ class Portfolio < ActiveRecord::Base
   belongs_to :user
   has_many :assets, :dependent => :destroy
 
-  accepts_nested_attributes_for :assets, :reject_if => lambda {|a| a[:asset_symbol].blank? || a[:purchase_date].blank? || a[:shares].blank? || a[:cost].blank?}
+  accepts_nested_attributes_for :assets, :reject_if => lambda {|a| a[:asset_symbol].blank? || a[:purchase_date].blank? || a[:shares].blank? || a[:cost].blank?}, :allow_destroy => true
 
 end

@@ -46,6 +46,12 @@ before_filter :has_one_portfolio, only: [:destroy]
 			@portfolio.destroy
 			redirect_to edit_portfolio_path(current_user.portfolios.first)
 	end
+	def update
+		@current_portfolio = Portfolio.find_by_id(params[:portfolio_id])
+		@current_portfolio.update_attributes(params[:portfolio])
+		redirect_to edit_portfolio_path(@current_portfolio.id)
+	end
+
 
 	private
 	def correct_user
