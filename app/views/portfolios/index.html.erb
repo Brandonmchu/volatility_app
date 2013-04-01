@@ -1,4 +1,6 @@
-
+<% content_for :head do%>
+  <%= javascript_include_tag 'portfolios'%>
+<%end%>
 <% if flash[:forbidden] %>
 <%= flash[:forbidden] %>
 <%end%>

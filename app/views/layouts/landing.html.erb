@@ -5,12 +5,11 @@
   <%= stylesheet_link_tag    "application" %>
   <%= stylesheet_link_tag    "//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900" %>
   <%= stylesheet_link_tag    "//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" %>
-
+  <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
-  <%= yield :head %>
 </head>
 <body>
-  <%= javascript_include_tag "application" %>
+
 <script type="text/javascript">
 $(function() {
     skrollr.init();

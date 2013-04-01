@@ -7,6 +7,8 @@ end
 def conditional_layout
   if current_user.nil?
     return 'landing'
+  else
+  	return 'application'
   end
 end
 

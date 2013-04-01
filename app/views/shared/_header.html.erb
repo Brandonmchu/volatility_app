@@ -1,4 +1,5 @@
 <% if signed_in? %>
+  <% unless current_user.portfolios.first.id.nil? %>
 
   <div class="navigation">
     <div class="navigation-inner">
@@ -15,6 +16,23 @@
     </div>
   </div>
 
+  <%else%>
+
+  <div class="navigation">
+    <div class="navigation-inner">
+      <div class="header-logo">
+        <p>Volatility</p>
+      </div>
+      <div class="navigation-menu">
+ 
+        <%= link_to 'Create Portfolio!', new_portfolio_path %>&nbsp;|&nbsp;
+        <%= link_to 'Account', edit_user_path(current_user) %>&nbsp;|&nbsp;
+        <%= link_to 'Signout', signout_path %>
+      </div>
+    </div>
+  </div>
+
+  <%end%>
 
 
   <%else%>

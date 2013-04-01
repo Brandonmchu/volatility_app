@@ -4,7 +4,9 @@ Hello World Welcome <%= current_user.name %> You are signed in. Please <%=link_t
 This is where we will display your friends portfolios to view.
 
 <%else%>
-<div class="hero-open" data-0="display:block;" data-300="display:none;">Control risk, and sleep at night.</div>
+
+
+<div class="hero-open" data-0="display:block;" data-300="display:none;">Control risk. Sleep peacefully.</div>
 <div class="hero-container" data-0="display:none;" data-300="display:block;">
   <h1> V<span data-300="font-size:80px" data-450="font-size:160px" data-600="font-size:80px">&sigma;</span>latile.me</h1>
 You are not signed in. Please <%=link_to "Log in", login_path, class: "btn" %> or <%=link_to "Register", register_path, class: "btn" %> for an account.
