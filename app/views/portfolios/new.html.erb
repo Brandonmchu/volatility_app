@@ -19,8 +19,8 @@ to 'has_many assets' and Assets 'belong to portfolios'. You have also included '
   <%= form_for @portfolio do |f|%>
   <%= f.text_field :portfolio_name, placeholder: "Portfolio name" %>
 
+<div id= "new-asset-table">
   <div class="yui3-skin-sam">
-
   <table>
       <tr>
         <th>Ticker</th>
@@ -34,12 +34,18 @@ to 'has_many assets' and Assets 'belong to portfolios'. You have also included '
     
     <%#render the asset_form partial and pass a = assetform. We do this because the do |assetform|
     block requires you to do something with assetform. I.e. it expects you to write assetform.text_field, asset_form.label, etc. Passing a = assetform allows you to use a.label and a.text_field in the asset_form partial. This is completely unnecessary and done purely to make things easier. Often times they will pass f = assetform so that it is f.label and f.text_field. This is because the form has fields and f is short for field. %>
-
     <%end%>
-    <%= f.submit "Create a portfolio"%>
-    <%end%>
-
+    
   </table>
+  <p><%= link_to_add_assets "Add Asset", f, :assets %></p>
+  <br></br>
+  <p><%= f.submit "Create a portfolio"%></p>
+  <%end%>
+  
+  
+  
+  
+  </div>
 </div>
 
 
