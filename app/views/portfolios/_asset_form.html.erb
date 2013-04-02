@@ -1,20 +1,17 @@
 <tr class = "assetinputfields"  >
-  
+
       <td>
-
-
-        
         <%= a.text_field :asset_symbol, :class=>'ac-input' %>
       </td><td>
-     
-        
+
+
         <%= a.text_field :shares, :class =>'positive' %>
       </td><td>
-        
+
         <%= a.text_field :cost, :class=>'positive' %>
       </td><td>
-        
-        <%= a.text_field :purchase_date, :type=>'date'%>
+
+        <%= a.text_field :purchase_date, :type=>'date', class: "date-class" %>
       </td>
       <td><%=a.hidden_field :_destroy %>
         <%= link_to_remove_fields "Remove", a %></td>

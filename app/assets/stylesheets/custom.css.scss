@@ -5,12 +5,26 @@
 */
 
 @import "bootstrap";
-$mainfont: 'DrSugiyama';
+$mainfont: 'ProximaNova';
+$headerfontcolor: rgb(240, 240, 240);
+$texture: url('textures/concrete_wall.png') repeat;
 
 @font-face{
-  font-family: 'DrSugiyama';
-  src:font-url('DrSugiyama-Regular.ttf');
-  font-weight: normal; 
+  font-family: 'ProximaNova';
+  src:font-url('ProximaNova-Regular.otf');
+  font-weight: normal;
+}
+
+@font-face{
+  font-family: 'ProximaNova';
+  src:font-url('ProximaNova-Light.otf');
+  font-weight: 100;
+}
+
+@font-face{
+  font-family: 'ProximaNova';
+  src:font-url('ProximaNova-Bold.otf');
+  font-weight: bold;
 }
 
 html, body, div, span, applet, object, iframe,
@@ -332,13 +346,24 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
 }
 
 /* New Portfolio + Assets page */
+
 #new-asset-table {
 
-  input {
-    width:70%;
-    margin-left: auto;
-    margin-right: auto;
+  td {
+    padding:none !important;
   }
+
+  input {
+
+    width:70%;
+    display:block;
+    margin-right: auto;
+    margin-left: auto;
+
+  }
+
+
+
 
 }
 /* Edit Portfolio Page  */
