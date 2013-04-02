@@ -259,7 +259,14 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
 
 .portfolio-name {
   width:100%;
-  margin-top: 40px;
+  padding:30px 0 30px 0;
+  text-align: center;
+
+
+  input {
+    font-size: 15px;
+    text-align: center;
+  }
 }
 
 .assettext{
@@ -315,12 +322,36 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
   }
 }
 
+/*buttons*/
+
+.button-container {
+  margin-top:30px;
+  text-align: center;
+
+.vol-button {
+  background-color:rgb(50,205,50);
+  font-family: $mainfont;
+  font-size: 30px;
+  border: none;
+  padding:15px 15px;
+  margin: 10px 0 10px 0;
+
+
+
+}
+  input:hover {
+  background-color:rgb(34,139,34);
+  }
+}
+
 /* New Portfolio + Assets page */
 
 #new-asset-table {
 
   td{
     width:22%;
+    padding-top:5px;
+    padding-bottom:5px;
   }
 
   td:last-child{
@@ -331,10 +362,8 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
   input {
 
     width:60%;
-    height:20px;
     display:block;
-    margin-right: auto;
-    margin-left: auto;
+    margin:auto;
 
   }
 
@@ -343,6 +372,11 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
     width:60%;
     font-size: 10px;
 
+  }
+
+  #add-another-link {
+    padding:10px 0 10px 0;
+    text-align: center;
   }
 }
 /* Edit Portfolio Page  */
