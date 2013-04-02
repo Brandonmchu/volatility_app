@@ -5,13 +5,13 @@
 <%= javascript_include_tag "http://yui.yahooapis.com/3.8.1/build/yui/yui-min.js" %>
 
 
-<h2 id='portfolio-title'>Edit or Create a Portfolio! </h2><br><br>
+<h1>Edit Portfolios </h1>
 
 <div class="portfolio-list">
   <div class="row-fluid">
       <div class="span12">
 
-        <%# anytime you render, if it is in 'quotations', then you are rendering a partial. When 
+        <%# anytime you render, if it is in 'quotations', then you are rendering a partial. When
         it isn't in quotations, you are rendering a variable from the controller. If the variable happens to be a pagination of a model, then rails convention will iterate through each record. You can then access the details of each record through this iteration. The iteration is done on a partial. Rails assumes that since you are iterating on a model, that the name of the partial is the model. That's why the below @userportfolios actually renders _portfolio.html.erb because the @userportfolios is defined as portfolios.paginate in the controller. %>
 
       <%= render @userportfolios, :locals => {:editpage => 'true'} %>
@@ -26,7 +26,7 @@
 
 
 <div class="main-header" id="editing-header">
-  <h1>Currently Editing: <%= @current_portfolio.portfolio_name %></h1>
+  <h2>Currently Editing: <%= @current_portfolio.portfolio_name %></h2>
 </div>
 
 <div class="currently-table">
@@ -39,21 +39,21 @@
         <th>Edit</th>
         <th>Delete</th>
       </tr>
-      
+
       <%= render @assets%>
-  
+
   </table>
 </div>
 
 <br><br>
-<h1>Add Additional Assets</h1>
+<h2>Add Additional Assets</h2>
 
 <%= form_for @current_portfolio do |f|%>
   <%= hidden_field_tag :portfolio_id, params[:id]%>
   <%= hidden_field_tag :editpage, 'true'%>
 
   <%= f.fields_for :assets do |assetform|%>
-  <%= render "asset_form", :a => assetform %> 
+  <%= render "asset_form", :a => assetform %>
   <%end%>
 
 <p><%= link_to_add_assets "Add More Assets", f, :assets %></p>
