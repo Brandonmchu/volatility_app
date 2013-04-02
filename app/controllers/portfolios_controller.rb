@@ -1,7 +1,6 @@
 class PortfoliosController < ApplicationController
 before_filter :signed_in_user
 before_filter :correct_user, only: [:show, :edit, :destroy]
-before_filter :has_one_portfolio, only: [:destroy]
 
 	def edit
 		@userportfolios = current_user.portfolios.paginate(page: params[:page])
@@ -44,7 +43,11 @@ before_filter :has_one_portfolio, only: [:destroy]
 
 	def destroy
 			@portfolio.destroy
-			redirect_to edit_portfolio_path(current_user.portfolios.first)
+			if current_user.portfolios.count ==0
+				redirect_to new_portfolio_path
+			else
+				redirect_to edit_portfolio_path(current_user.portfolios.first)
+			end
 	end
 	def update
 		@current_portfolio = Portfolio.find_by_id(params[:portfolio_id])
@@ -60,9 +63,5 @@ before_filter :has_one_portfolio, only: [:destroy]
 		redirect_to portfolio_path(current_user.portfolios.first.id) if @portfolio.nil?
 	end
 
-	def has_one_portfolio
-		flash[:error] = "Sorry, you are not allowed have less than one portfolio" if current_user.portfolios.count == 1
-		redirect_to edit_portfolio_path(current_user.portfolios.first) if current_user.portfolios.count == 1
-	end
-
+	
 end
