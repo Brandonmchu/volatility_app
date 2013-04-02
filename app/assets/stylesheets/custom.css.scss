@@ -217,35 +217,6 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
   text-align: center;
 }
 
-.add-asset-button {
-  -moz-box-shadow:inset 0px 1px 0px 0px #525252;
-  -webkit-box-shadow:inset 0px 1px 0px 0px #525252;
-  box-shadow:inset 0px 1px 0px 0px #525252;
-  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #002c56), color-stop(1, #002242) );
-  background:-moz-linear-gradient( center top, #002c56 5%, #002242 100% );
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#002c56', endColorstr='#002242');
-  background-color:#002c56;
-  -moz-border-radius:5px;
-  -webkit-border-radius:5px;
-  border-radius:5px;
-  border:1px solid #383838;
-  display:inline-block;
-  color:#ffffff;
-  font-family:Arial;
-  font-size:22px;
-  font-weight:normal;
-  padding:11px 12px;
-  text-decoration:none;
-  text-shadow:1px 0px 0px #383838;
-}.add-asset-button:hover {
-  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #002242), color-stop(1, #002c56) );
-  background:-moz-linear-gradient( center top, #002242 5%, #002c56 100% );
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#002242', endColorstr='#002c56');
-  background-color:#002242;
-}.add-asset-button:active {
-  position:relative;
-  top:1px;
-}
 
   .portfolio-box-container{
   width:22%;
@@ -288,7 +259,14 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
 
 .portfolio-name {
   width:100%;
-  margin-top: 40px;
+  padding:30px 0 30px 0;
+  text-align: center;
+
+
+  input {
+    font-size: 15px;
+    text-align: center;
+  }
 }
 
 .assettext{
@@ -344,6 +322,28 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
   }
 }
 
+/*buttons*/
+
+.button-container {
+  margin-top:30px;
+  text-align: center;
+
+.vol-button {
+  background-color:rgb(50,205,50);
+  font-family: $mainfont;
+  font-size: 30px;
+  border: none;
+  padding:15px 15px;
+  margin: 10px 0 10px 0;
+
+
+
+}
+  input:hover {
+  background-color:rgb(34,139,34);
+  }
+}
+
 /* New Portfolio + Assets page */
 
 #new-asset-table {
@@ -353,13 +353,23 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
         padding-top:10px;
         vertical-align: top;
       }
+      td:last-child{
+        width:12%;
+        text-align: center
+      }
       td{
+        width:22%;
+        padding-top:5px;
+        padding-bottom:5px;
         vertical-align: top;
+        input[type="date"]{
+          width:60%;
+          font-size: 10px;
+        }
         input {
-          width:70%;
+          width:60%;
           display:block;
-          margin-right: auto;
-          margin-left: auto;
+          margin: auto;
          }
         a{
           margin-top: 0px;
@@ -370,6 +380,10 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
 
 }
 
+  #add-another-link {
+    padding:10px 0 10px 0;
+    text-align: center;
+  }
 
 
 /* Edit Portfolio Page  */
