@@ -13,112 +13,114 @@
 <h2>Currently viewing: <%= @current_portfolio.portfolio_name %></h2>
 
 <div class="graph-container">
-<script>
-$(function () {
-    var mychart = new Highcharts.StockChart({
-        chart:{
-            renderTo: 'chart'
-        },
-        rangeSelector:{
-            enabled: true,
-            selected: 4,
-            inputPosition:{
-                align: "right",
-                x: -75
-            }
-        },
-        navigator:{
-            enabled: true
-        },
-        plotOptions:{
-            series:{
-                marker:{
-                    enabled: false
+    <script>
+    $(function () {
+        var mychart = new Highcharts.StockChart({
+            chart:{
+                renderTo: 'chart'
+            },
+            rangeSelector:{
+                enabled: true,
+                selected: 4,
+                inputPosition:{
+                    align: "right",
+                    x: -75
                 }
-            }
-        },
-        legend:{
-            enabled:true,
-            align:'right',
-            layout: 'vertical',
-            verticalAlign: 'middle'
-        },
-        title: {
-            text: 'Rolling 1 Month Standard Deviation'
-        },
-        xAxis: {
-            type: 'datetime'
-        },
-        yAxis: {
+            },
+            navigator:{
+                enabled: true
+            },
+            plotOptions:{
+                series:{
+                    marker:{
+                        enabled: false
+                    }
+                }
+            },
+            legend:{
+                enabled:true,
+                align:'right',
+                layout: 'vertical',
+                verticalAlign: 'middle'
+            },
             title: {
-                text: '% Deviation'
+                text: 'Rolling 1 Month Standard Deviation'
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: {
+                title: {
+                    text: '% Deviation'
 
-            }
-        },
-        series: [ {
-            name: 'Portfolio',
-            data:<%= AssetHistory.portfoliostdev(@current_portfolio.id,@current_portfolio.assets.count,21)%>,
-            tooltip:{
-                valueDecimals:3
-            }
-        },
-        <% @current_portfolio.assets.each do |asset|%>
-        {
-            name: '<%=asset.asset_symbol%>',
-            data:<%= AssetHistory.stdev(asset.asset_symbol,21)%>,
-            tooltip:{
-                valueDecimals:3
-            }
-        },
-        <%end%>
-        ]
+                }
+            },
+            series: [ {
+                name: 'Portfolio',
+                data:<%= AssetHistory.portfoliostdev(@current_portfolio.id,@current_portfolio.assets.count,21)%>,
+                tooltip:{
+                    valueDecimals:3
+                }
+            },
+            <% @current_portfolio.assets.each do |asset|%>
+            {
+                name: '<%=asset.asset_symbol%>',
+                data:<%= AssetHistory.stdev(asset.asset_symbol,21)%>,
+                tooltip:{
+                    valueDecimals:3
+                }
+            },
+            <%end%>
+            ]
 
 
+        });
+         window['mychart'] = mychart;
     });
-     window['mychart'] = mychart;
-});
 
 
 
-$(function(){
-    $('#display1m').click(function() {
-        mychart.series[0].setData( <%= AssetHistory.portfoliostdev(@current_portfolio.id,@current_portfolio.assets.count,21)%>,true);
-        <% (0...@current_portfolio.assets.length).each do |n| %>
-        mychart.series[<%=n+1%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],21)%>,true);
-        <%end%>
-        mychart.setTitle({text:"Rolling 1 Month Standard Deviation"});
+    $(function(){
+        $('#display1m').click(function() {
+            mychart.series[0].setData( <%= AssetHistory.portfoliostdev(@current_portfolio.id,@current_portfolio.assets.count,21)%>,true);
+            <% (0...@current_portfolio.assets.length).each do |n| %>
+            mychart.series[<%=n+1%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],21)%>,true);
+            <%end%>
+            mychart.setTitle({text:"Rolling 1 Month Standard Deviation"});
+        });
     });
-});
-$(function(){
-$('#display3m').click(function() {
-        mychart.series[0].setData( <%= AssetHistory.portfoliostdev(@current_portfolio.id,@current_portfolio.assets.count,63)%>,true);
-        <% (0...@current_portfolio.assets.length).each do |n| %>
-        mychart.series[<%=n+1%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],63)%>,true);
-        <%end%>
-        mychart.setTitle({text:"Rolling 1 Quarter Standard Deviation"});
+    $(function(){
+    $('#display3m').click(function() {
+            mychart.series[0].setData( <%= AssetHistory.portfoliostdev(@current_portfolio.id,@current_portfolio.assets.count,63)%>,true);
+            <% (0...@current_portfolio.assets.length).each do |n| %>
+            mychart.series[<%=n+1%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],63)%>,true);
+            <%end%>
+            mychart.setTitle({text:"Rolling 1 Quarter Standard Deviation"});
+        });
     });
-});
-$(function(){
-$('#display12m').click(function() {
-        mychart.series[0].setData( <%= AssetHistory.portfoliostdev(@current_portfolio.id,@current_portfolio.assets.count,252)%>,true);
-        <% (0...@current_portfolio.assets.length).each do |n| %>
-        mychart.series[<%=n+1%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],252)%>,true);
-        <%end%>
-        mychart.setTitle({text:"Rolling 1 Year Standard Deviation"});
+    $(function(){
+    $('#display12m').click(function() {
+            mychart.series[0].setData( <%= AssetHistory.portfoliostdev(@current_portfolio.id,@current_portfolio.assets.count,252)%>,true);
+            <% (0...@current_portfolio.assets.length).each do |n| %>
+            mychart.series[<%=n+1%>].setData( <%=AssetHistory.stdev(@current_portfolio.assets[n]['asset_symbol'],252)%>,true);
+            <%end%>
+            mychart.setTitle({text:"Rolling 1 Year Standard Deviation"});
+        });
     });
-});
 
 
-</script>
+    </script>
 
 
-<div id = "chart"> </div>
-<button id="display1m"> 1 Month </button>
-<button id="display3m"> 1 Quarter</button>
-<button id="display12m">1 Year </button>
+    <div id = "chart"> </div>
+    <button id="display1m"> 1 Month </button>
+    <button id="display3m"> 1 Quarter</button>
+    <button id="display12m">1 Year </button>
 
 </div>
 
 <h2>Select a different Portfolio to view:</h2>
-<%= render @userportfolios, :locals=> {:editpage=>nil} %>
 
+    <div class="portfolio-list">
+        <%= render @userportfolios, :locals=> {:editpage=>nil} %>
+    </div>
