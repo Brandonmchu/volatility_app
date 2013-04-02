@@ -5,13 +5,12 @@
 */
 
 @import "bootstrap";
-$mainfont: 'ProximaNova', sans-serif;
+$mainfont: 'DrSugiyama';
 
-@font-face {
-  font-family: 'ProximaNova';
-  src:font-url('ProximaNova-Regular.otf');
-  font-weight: normal;
-  font-style: normal;
+@font-face{
+  font-family: 'DrSugiyama';
+  src:font-url('DrSugiyama-Regular.ttf');
+  font-weight: normal; 
 }
 
 html, body, div, span, applet, object, iframe,

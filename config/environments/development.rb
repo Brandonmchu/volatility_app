@@ -34,4 +34,6 @@ VolatilityApp::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+      #Adding fonts folder
+    config.assets.paths << Rails.root.join('app','assets','fonts')
 end

@@ -67,5 +67,10 @@ module VolatilityApp
     # See http://stackoverflow.com/questions/13712012/error-pushing-to-heroku-aborting-my-rake-assetsprecompile 
     # for why I used the below:
     config.assets.initialize_on_precompile = false
+ 
+    #Adding fonts folder
+    config.assets.paths << Rails.root.join('app','assets','fonts')
+
+
   end
 end
