@@ -12,7 +12,7 @@
 
 
 <%# The below is a nested form, which is another way of saying it is a form for both Portfolio
-and Assets. First you write the form_for @portfolio and then you write fields_for :assets, this is 
+and Assets. First you write the form_for @portfolio and then you write fields_for :assets, this is
 where you are referencing the actual Assets model. Rails knows this because you have set Portfolios
 to 'has_many assets' and Assets 'belong to portfolios'. You have also included 'accepts_nested_attributes_for assets' in the Portfolio model%>
 
@@ -31,58 +31,23 @@ to 'has_many assets' and Assets 'belong to portfolios'. You have also included '
       </tr>
 
     <%= f.fields_for :assets do |assetform|%>
-    <%= render "asset_form", :a => assetform %> 
-    
+    <%= render "asset_form", :a => assetform %>
+
     <%#render the asset_form partial and pass a = assetform. We do this because the do |assetform|
     block requires you to do something with assetform. I.e. it expects you to write assetform.text_field, asset_form.label, etc. Passing a = assetform allows you to use a.label and a.text_field in the asset_form partial. This is completely unnecessary and done purely to make things easier. Often times they will pass f = assetform so that it is f.label and f.text_field. This is because the form has fields and f is short for field. %>
     <%end%>
-    
+
   </table>
 
   <p><%= link_to_add_assets "Add Asset", f, :assets %></p>
   <br>
   <p><%= f.submit "Create a portfolio"%></p>
   <%end%>
-  
-  
-  
-  
+
+
+
+
   </div>
 </div>
 
 
-
-
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
-
-
-
-
-<div class="add-asset-container">
-  <p>Add a stock, bond, or ETF</p>
-  <%= form_for(@asset) do |f| %>
-  <%= hidden_field_tag :portfolio_id, params[:id]%>
-  <div class="add-asset-field  yui3-skin-sam">
-    <%= f.text_field :asset_symbol, :id=>'ac-input' %>
-  </div>
-  <div class="add-asset-table">
-    <table>
-      <tr>
-        <td># of Shares</td>
-        <td>Cost Basis</td>
-        <td>Date Purchased</td>
-      </tr>
-      <tr>
-        <td><%= f.text_field :shares, :class=> 'positive' %></td>
-        <td><%= f.text_field :cost, :class=> 'positive' %></td>
-        <td><%= f.text_field :purchase_date, :type=>'date' %></td>
-      </tr>
-    </table>
-  </div>
-</div>
-<div class= "submit-button">
-  <%= f.submit "+ Add to Portfolio", class: "add-asset-button"%>
-</div>
-  <%end%>
