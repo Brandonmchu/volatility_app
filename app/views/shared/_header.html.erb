@@ -1,5 +1,5 @@
 <% if signed_in? %>
-  <% unless current_user.portfolios.first.id.nil? %>
+  <% unless current_user.portfolios.count ==0 %>
 
   <div class="navigation">
     <div class="navigation-inner">

@@ -12,10 +12,10 @@ class SessionsController < ApplicationController
 		user = User.find_by_email(params[:session][:email].downcase)
 		if user && user.authenticate(params[:session][:password])
 			sign_in user
-			updateassets
 			if user.portfolios.first.nil?
 				redirect_back_or new_portfolio_path
 			else
+				updateassets
 				redirect_back_or portfolio_path(user.portfolios.first.id)
 			end
 		else
