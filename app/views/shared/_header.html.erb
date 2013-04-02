@@ -4,14 +4,19 @@
   <div class="navigation">
     <div class="navigation-inner">
       <div class="header-logo">
-        <p>Volatility</p>
+        <p>V&sigma;latility</p>
       </div>
       <div class="navigation-menu">
- 
-        <%= link_to 'View Portfolios', portfolio_path(current_portfolio.id) %>&nbsp;|&nbsp;
-        <%= link_to 'Edit Portfolios', edit_portfolio_path(current_portfolio.id) %>&nbsp;|&nbsp;
-        <%= link_to 'Account', edit_user_path(current_user) %>&nbsp;|&nbsp;
-        <%= link_to 'Signout', signout_path %>
+        <li class="dropdown pull-right">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_user.name %>
+          <b class="caret"></b></a>
+          <ul class="dropdown-menu pull-right">
+            <li><%= link_to 'View Portfolios', portfolio_path(current_portfolio.id) %></li>
+            <li><%= link_to 'Edit Portfolios', edit_portfolio_path(current_portfolio.id) %></li>
+            <li><%= link_to 'Account', edit_user_path(current_user) %></li>
+            <li><%= link_to 'Signout', signout_path %></li>
+          </ul>
+        </li>
       </div>
     </div>
   </div>
@@ -21,13 +26,18 @@
   <div class="navigation">
     <div class="navigation-inner">
       <div class="header-logo">
-        <p>Volatility</p>
+        <p>V&sigma;latility</p>
       </div>
       <div class="navigation-menu">
- 
-        <%= link_to 'Create Portfolio!', new_portfolio_path %>&nbsp;|&nbsp;
-        <%= link_to 'Account', edit_user_path(current_user) %>&nbsp;|&nbsp;
-        <%= link_to 'Signout', signout_path %>
+        <li class="dropdown pull-right">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_user.name %>
+                  <b class="caret"></b></a>
+            <ul class="dropdown-menu pull-right">
+              <%= link_to 'Create Portfolio!', new_portfolio_path %>
+              <%= link_to 'Account', edit_user_path(current_user) %>
+              <%= link_to 'Signout', signout_path %>
+            </ul>
+        </li>
       </div>
     </div>
   </div>
@@ -40,12 +50,11 @@
   <div class="navigation">
     <div class="navigation-inner">
       <div class="header-logo">
-        <p>Volatility</p>
+        <p>Vlatility</p>
       </div>
       <div class="navigation-menu">
-        <%= link_to 'Login', login_path %>&nbsp;|&nbsp;
-        <%= link_to 'Register', register_path %>&nbsp;|&nbsp;
-        <%= link_to 'Account', login_path %>
+        <%= link_to 'Login', login_path %>
+        <%= link_to 'Register', register_path %>
       </div>
     </div>
   </div>

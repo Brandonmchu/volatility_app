@@ -5,7 +5,14 @@
 */
 
 @import "bootstrap";
+$mainfont: 'ProximaNova', sans-serif;
 
+@font-face {
+  font-family: 'ProximaNova';
+  src:font-url('ProximaNova-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -55,7 +62,7 @@ html{
 }
 
 body{
-  font-family:'lato-light',Serif;
+  font-family: $mainfont;
   width:100%;
 }
 
@@ -70,52 +77,65 @@ body{
 /*Navigation Bar*/
 
 .navigation {
-  background-color:#002d56;
-  color:#FFF;
+  background-color:#FFF;
+  height: 70px;
+  color:#000;
   width:100%;
-  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 1);
-  -moz-box-shadow:    0px 1px 2px rgba(0, 0, 0, 1);
-  box-shadow:         0px 1px 2px rgba(0, 0, 0, 1);
+  -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow:    0px 1px 1px rgba(0, 0, 0, 0.3);
+  -o-box-shadow:      0px 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow:         0px 1px 1px rgba(0, 0, 0, 0.3);
   position:fixed;
   top:0;
   z-index:2;
+  font-family: $mainfont;
 }
 
 .navigation-inner {
+  height:100%;
   width:768px;
   margin:auto;
-  padding:15px 0 35px 0;
-
 }
 
 .header-logo{
   width:30%;
+  height:100%;
   float:left;
   p {
-  font-size:20px;
+  font-size:40px;
+  margin-top: 15px
   }
 }
 
 .navigation-menu{
   width:70%;
+  height:100%;
   float:right;
   text-align: right;
   line-height: 20px;
-  a {
-    color:#FFF;
-    text-decoration: none;
-  }
+
+
 }
+
+.dropdown {
+    list-style-type: none;
+    margin-top: 25px;
+    a {
+      font-size:25px;
+    }
+}
+
+
 
 /*Main Content*/
 
 .main-container{
   width:768px;
   margin:auto;
-  margin-top:50px;
+  margin-top:70px;
 }
 
-.main-header{
+.main-content{
 padding:50px 0 40px 0;
   h1 {
     text-align:center;
