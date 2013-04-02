@@ -9,11 +9,12 @@
 <%= javascript_include_tag "http://code.jquery.com/jquery-1.9.1.min.js"%>
 <%= javascript_include_tag "highstock" %>
 
+<h1><%= current_user.name %>'s Portfolios</h1>
+<h2>Currently viewing: <%= @current_portfolio.portfolio_name %></h2>
 
-
-
+<div class="graph-container">
 <script>
-$(function () { 
+$(function () {
     var mychart = new Highcharts.StockChart({
         chart:{
             renderTo: 'chart'
@@ -116,18 +117,8 @@ $('#display12m').click(function() {
 <button id="display3m"> 1 Quarter</button>
 <button id="display12m">1 Year </button>
 
+</div>
 
-<br>
-<br>
-Currently viewing <%= @current_portfolio.portfolio_name%>. The assets in this portfolio include:
-<br>
-<br>
-<% @current_portfolio.assets.each do |asset|%>
-<%= asset.asset_symbol%><br>
-
-<%end%>
-<br>
-<br>
-Select a different Portfolio to view:
-
+<h2>Select a different Portfolio to view:</h2>
 <%= render @userportfolios, :locals=> {:editpage=>nil} %>
+
