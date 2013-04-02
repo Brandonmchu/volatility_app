@@ -15,10 +15,12 @@
 and Assets. First you write the form_for @portfolio and then you write fields_for :assets, this is
 where you are referencing the actual Assets model. Rails knows this because you have set Portfolios
 to 'has_many assets' and Assets 'belong to portfolios'. You have also included 'accepts_nested_attributes_for assets' in the Portfolio model%>
+<h1>Create a new portfolio</h1>
 
   <%= form_for @portfolio do |f|%>
+  <div class="portfolio-name">
   <%= f.text_field :portfolio_name, placeholder: "Portfolio name" %>
-
+  </div>
 <div id= "new-asset-table">
   <div class="yui3-skin-sam">
 
@@ -39,9 +41,9 @@ to 'has_many assets' and Assets 'belong to portfolios'. You have also included '
 
   </table>
 
-  <p><%= link_to_add_assets "Add Asset", f, :assets %></p>
+  <p><%= link_to_add_assets "Add Another Asset", f, :assets %></p>
   <br>
-  <p><%= f.submit "Create a portfolio"%></p>
+  <p><%= f.submit "Create a portfolio", class: "add-asset-button" %></p>
   <%end%>
 
 

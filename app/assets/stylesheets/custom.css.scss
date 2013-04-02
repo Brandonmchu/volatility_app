@@ -273,6 +273,11 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
   filter:alpha(opacity=0);
 }
 
+.portfolio-name {
+  width:100%;
+  margin-top: 40px;
+}
+
 .assettext{
 }
 .inputfield{
@@ -327,7 +332,15 @@ box-shadow:         0px 0px 3px rgba(49, 53, 58, 1);
 }
 
 /* New Portfolio + Assets page */
+#new-asset-table {
 
+  input {
+    width:70%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+}
 /* Edit Portfolio Page  */
 
 .currently-table{
