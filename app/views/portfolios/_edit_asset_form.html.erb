@@ -1,0 +1,18 @@
+<tr class = "assetinputfields"  >
+
+      <td>
+        <%= a.text_field :asset_symbol, :id=>'ac-input' %>
+      </td><td>
+
+
+        <%= a.text_field :shares, :class =>'positive' %>
+      </td><td>
+
+        <%= a.text_field :cost, :class=>'positive' %>
+      </td><td>
+
+        <%= a.text_field :purchase_date, :type=>'date', class: "date-class" %>
+      </td>
+      <td><%=a.check_box :_destroy %></td>
+
+</tr>

@@ -17,7 +17,7 @@
       <%= render @userportfolios, :locals => {:editpage => 'true'} %>
 
       <div class="portfolio-box-container">
-      <%= link_to '+ Add Portfolio', new_portfolio_path, class: 'portfolio-box' %></div>
+      <%= link_to '+ Add Portfolio', '#', class: 'portfolio-box', id: 'create-new-port-button' %></div>
       </div>
 
   </div>
@@ -28,32 +28,15 @@
 <div class="main-header" id="editing-header">
   <h2>Currently Editing: <%= @current_portfolio.portfolio_name %></h2>
 </div>
-
-<div class="currently-table">
-  <table class="table">
-      <tr>
-        <th>Ticker</th>
-        <th># of Shares</th>
-        <th>Cost Basis</th>
-        <th>Date Purchased</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-
-      <%= render @assets%>
-
-  </table>
-</div>
-
-<br><br>
-<h2>Add Additional Assets</h2>
+<div id="Edit-additional-assets">
+<h2>Edit or Add Additional Assets</h2>
 
 <%= form_for @current_portfolio do |f|%>
   <%= hidden_field_tag :portfolio_id, params[:id]%>
   <%= hidden_field_tag :editpage, 'true'%>
 
   <%= f.fields_for :assets do |assetform|%>
-  <%= render "asset_form", :a => assetform %>
+  <%= render "edit_asset_form", :a => assetform %>
   <%end%>
 
 <p><%= link_to_add_assets "Add More Assets", f, :assets %></p>
@@ -62,41 +45,41 @@
 <%=f.submit "Submit Additional Assets", :class => 'add-additional-assets' %></p>
 
 <%end%>
-
-
-
-
-  <br>
-  <div class= "add-asset-button" id="add-asset-button">Add an Asset to your Portfolio</div>
-  <div class="asset-form-container">
-  <%= form_for(@asset) do |f| %>
-  <%= hidden_field_tag :portfolio_id, params[:id]%>
-  <%= hidden_field_tag :editpage, 'true'%>
-
-    <table>
-      <tr>
-        <td>Stock Symbol </td>
-        <td># of Shares</td>
-        <td>Cost Basis</td>
-        <td>Date Purchased</td>
-      </tr>
-      <tr>
-        <td>
-        <div class="yui3-skin-sam">
-            <%= f.text_field :asset_symbol, :id=>'ac-input' %>
-        </div></td>
-        <td><%= f.text_field :shares, :class=> 'positive' %></td>
-        <td><%= f.text_field :cost, :class=> 'positive' %></td>
-        <td><%= f.text_field :purchase_date, :type=>'date' %></td>
-      </tr>
-    </table>
-
-
-<div class= "submit-button">
-  <%= f.submit "Add Asset", class: "add-asset-button"%>
 </div>
-  <%end%>
+
+
+<!--modal-->
+<div id='overlay'>
+  <div id = 'modalpopout'>
+  <%= form_for @portfolio, :url =>{:action=>'create'} do |f|%>
+  <div class="portfolio-name">
+  <%= f.text_field :portfolio_name, placeholder: "Enter Portfolio Name" %>
   </div>
+<div id= "new-asset-table">
+  <div class="yui3-skin-sam">
 
- <!-- Handle errors from creating an asset by rendering an error partial -->
+  <table>
+      <tr>
+        <th>Ticker</th>
+        <th># of Shares</th>
+        <th>Cost Basis</th>
+        <th>Date Purchased</th>
+      </tr>
 
+    <%= f.fields_for :assets do |assetform|%>
+    <%= render "asset_form", :a => assetform %>
+
+    <%#render the asset_form partial and pass a = assetform. We do this because the do |assetform|
+    block requires you to do something with assetform. I.e. it expects you to write assetform.text_field, asset_form.label, etc. Passing a = assetform allows you to use a.label and a.text_field in the asset_form partial. This is completely unnecessary and done purely to make things easier. Often times they will pass f = assetform so that it is f.label and f.text_field. This is because the form has fields and f is short for field. %>
+    <%end%>
+
+  </table>
+
+  <p id="add-another-link"><%= link_to_add_assets "Add Another Asset", f, :assets %></p>
+    </div>
+    </div>
+  <p class="button-container"><%= f.submit "Create Your Portfolio", class: "vol-button" %></p>
+  <%end%>
+</div>
+</div>
+<!--end of modal-->

@@ -1,9 +1,29 @@
-html {
-  height:100%;
-}
+
+$texture: url('textures/concrete_wall.png') repeat;
 
 body{
   height:100%;
+}
+
+.footer {
+  width:100%;
+  background: $texture;
+  height:50px;
+  float:left;
+  margin-top: 30px;
+  bottom:0;
+  position:fixed;
+
+  p{
+    color:white;
+    padding-top:20px;
+    float:right;
+  }
+  .footer-content{
+    width:1000px;
+    margin:auto;
+  }
+
 }
 
 .section-one{

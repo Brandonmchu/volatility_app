@@ -5,8 +5,10 @@ before_filter :correct_user, only: [:show, :edit, :destroy]
 	def edit
 		@userportfolios = current_user.portfolios.paginate(page: params[:page])
 		@current_portfolio = current_user.portfolios.find_by_id(params[:id])
-		@asset = @current_portfolio.assets.build
 		@assets =@current_portfolio.assets.paginate(page: params[:page])
+		@portfolio = current_user.portfolios.new
+		1.times {@portfolio.assets.build}
+	
 	end
 
 	def index
@@ -38,7 +40,6 @@ before_filter :correct_user, only: [:show, :edit, :destroy]
 	def new
 		@portfolio = current_user.portfolios.new
 		5.times {@portfolio.assets.build}
-		@asset = Asset.new
 	end
 
 	def destroy

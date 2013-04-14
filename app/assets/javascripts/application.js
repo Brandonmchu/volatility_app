@@ -21,10 +21,28 @@ function add_fields(link, association, content) {
   var regexp = new RegExp("new_" + association, "g")
   $(link).parent().before(content.replace(regexp, new_id));
   $(".positive").numeric({ negative: false }, function() { alert("No negative values"); this.value = ""; this.focus(); });
-  $(".add-additional-assets").css('display','inline');
 }
 
 function remove_fields(link) {
   $(link).prev("input[type=hidden]").val("1");
   $(link).closest(".assetinputfields").hide();
 }
+
+$(document).ready(function(){
+	$(document).click(function(event) {
+    $("#overlay").css("visibility","hidden"); 
+});
+});
+
+$(document).ready(function(){
+	$("#create-new-port-button").click(function(event) {
+   	$("#overlay").css("visibility","visible"); 
+   	event.stopPropagation();
+});
+});
+
+$(document).ready(function(){
+  $("#overlay >*").click(function(event) {
+    event.stopPropagation();
+});
+});
